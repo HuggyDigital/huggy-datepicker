@@ -1,5 +1,5 @@
 {
-  "name": "huggy-datepicker",
+  "name": "@huggydigital/huggy-datepicker",
   "description": "A Vue Datepicker Component modified from the https://github.com/mengxiong10/vue2-datepicker 3.10.2 project",
   "main": "index.js",
   "module": "index.esm.js",
