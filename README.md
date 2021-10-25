@@ -24,11 +24,11 @@
 ## Install
 
 ```bash
-$ npm install huggy-datepicker --save
+$ npm install @huggydigital/huggy-datepicker --save
 
 or
 
-$ yarn add huggy-datepicker
+$ yarn add @huggydigital/huggy-datepicker
 ```
 
 ## Usage
