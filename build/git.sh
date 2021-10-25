@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Check current branch
-if test "master" != "$(git symbolic-ref --short HEAD)"; then
-  echo 'Not on `master` branch.' >&2;
+if test "main" != "$(git symbolic-ref --short HEAD)"; then
+  echo 'Not on `main` branch.' >&2;
   exit 128;
 fi
 

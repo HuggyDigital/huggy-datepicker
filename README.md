@@ -3,10 +3,10 @@
 > A Datepicker Component modified from the https://github.com/mengxiong10/vue2-datepicker v3.10.2 project
 
 <a href="https://travis-ci.com/huggydigital/huggy-datepicker">
-  <img src="https://travis-ci.com/huggydigital/huggy-datepicker.svg?branch=master" alt="build:passed">
+  <img src="https://travis-ci.com/huggydigital/huggy-datepicker.svg?branch=main" alt="build:passed">
 </a>
 <a href="https://coveralls.io/github/huggydigital/huggy-datepicker">
-  <img src="https://coveralls.io/repos/github/huggydigital/huggy-datepicker/badge.svg?branch=master&service=github" alt="Badge">
+  <img src="https://coveralls.io/repos/github/huggydigital/huggy-datepicker/badge.svg?branch=main&service=github" alt="Badge">
 </a>
 <a href="https://www.npmjs.com/package/@huggydigital/huggy-datepicker">
   <img src="https://img.shields.io/npm/v/huggy-datepicker.svg" alt="npm">
@@ -19,7 +19,7 @@
 
 <https://huggydigital.github.io/huggy-datepicker/index.html>
 
-![image](https://github.com/huggydigital/huggy-datepicker/raw/master/screenshot/demo.png)
+![image](https://github.com/huggydigital/huggy-datepicker/raw/main/screenshot/demo.png)
 
 ## Install
 
@@ -88,7 +88,7 @@ import 'huggy-datepicker/locale/pt-br';
 ```
 
 You can also override some of the default locale by `lang`.
-[Full config](https://github.com/huggydigital/huggy-datepicker/blob/master/locale.md)
+[Full config](https://github.com/huggydigital/huggy-datepicker/blob/main/locale.md)
 
 ```html
 <script>
@@ -329,6 +329,6 @@ Set fixed time list to select;
 [CHANGELOG](CHANGELOG.md)
 ## License
 
-[MIT](https://github.com/huggydigital/huggy-datepicker/blob/master/LICENSE)
+[MIT](https://github.com/huggydigital/huggy-datepicker/blob/main/LICENSE)
 
 Copyright (c) 2021-present huggydigital

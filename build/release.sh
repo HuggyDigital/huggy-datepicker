@@ -20,10 +20,10 @@ then
   npm version $VERSION --message "$VERSION"
 
   # publish
-  git push origin master
+  git push origin main
   git push origin refs/tags/v$VERSION
   git checkout dev
-  git rebase master
+  git rebase main
   git push origin dev
 
   if [[ $VERSION =~ "beta" ]]
