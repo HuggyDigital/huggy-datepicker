@@ -1,0 +1,15 @@
+.vscode
+.cache
+
+.coveralls.yml
+_site
+
+node_modules
+
+/dist
+
+/locale
+
+/index.*
+
+/scss
