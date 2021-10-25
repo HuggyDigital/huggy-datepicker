@@ -4,4 +4,4 @@ script: 'yarn test'
 after_script: yarn cov
 branches:
   only:
-  - master
+  - main
