@@ -119,11 +119,6 @@
   padding: 0 16px;
   border-right: 1px solid $light-gray;
   overflow: auto;
-  min-height: 258px;
-
-  @media (max-width: 750px) {
-    min-height: 548px !important;
-  }
 }
 
 .#{$namespace}-datepicker-body {
