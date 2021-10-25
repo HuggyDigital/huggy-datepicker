@@ -1,3 +1,7 @@
+# 1.1.0 (2021-10-25)
+
+
+
 # [1.1.0](https://github.com/jhonedarts/huggy-datepicker/compare/v1.0.9...v1.1.0) (2021-10-21)
 
 
