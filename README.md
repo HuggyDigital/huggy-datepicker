@@ -35,7 +35,7 @@ $ yarn add @huggydigital/huggy-datepicker
 
 ```html
 <script>
-  import DatePicker from 'huggy-datepicker';
+  import DatePicker from '@huggydigital/huggy-datepicker';
   import 'huggy-datepicker/index.css';
 
   export default {
@@ -81,7 +81,7 @@ you can import a locale file.
 Once you import a locale, it becomes the active locale.
 
 ```js
-import DatePicker from 'huggy-datepicker';
+import DatePicker from '@huggydigital/huggy-datepicker';
 import 'huggy-datepicker/index.css';
 
 import 'huggy-datepicker/locale/pt-br';

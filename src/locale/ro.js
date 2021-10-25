@@ -1,4 +1,4 @@
-import DatePicker from 'huggy-datepicker';
+import DatePicker from '@huggydigital/huggy-datepicker';
 import ro from 'date-format-parse/lib/locale/ro';
 
 const lang = {

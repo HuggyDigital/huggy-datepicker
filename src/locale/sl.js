@@ -1,4 +1,4 @@
-import DatePicker from 'huggy-datepicker';
+import DatePicker from '@huggydigital/huggy-datepicker';
 import sl from 'date-format-parse/lib/locale/sl';
 
 const lang = {
