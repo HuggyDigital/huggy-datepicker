@@ -9,7 +9,7 @@
   <img src="https://coveralls.io/repos/github/huggydigital/huggy-datepicker/badge.svg?branch=main&service=github" alt="Badge">
 </a>
 <a href="https://www.npmjs.com/package/@huggydigital/huggy-datepicker">
-  <img src="https://img.shields.io/npm/v/huggy-datepicker.svg" alt="npm">
+  <img src="https://img.shields.io/npm/v/@huggydigital/huggy-datepicker.svg" alt="npm">
 </a>
 <a href="LICENSE">
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT">
