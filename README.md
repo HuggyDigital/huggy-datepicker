@@ -36,7 +36,7 @@ $ yarn add @huggydigital/huggy-datepicker
 ```html
 <script>
   import DatePicker from '@huggydigital/huggy-datepicker';
-  import 'huggy-datepicker/index.css';
+  import '@huggydigital/huggy-datepicker/index.css';
 
   export default {
     components: { DatePicker },
@@ -71,7 +71,7 @@ $namespace: 'xmx'; // change the 'mx' to 'xmx'. then <date-picker prefix-class="
 $default-color: #555;
 $primary-color: #321BDE;
 
-@import '~huggy-datepicker/scss/index.scss';
+@import '~@huggydigital/huggy-datepicker/scss/index.scss';
 ```
 
 ## Internationalization
@@ -82,9 +82,9 @@ Once you import a locale, it becomes the active locale.
 
 ```js
 import DatePicker from '@huggydigital/huggy-datepicker';
-import 'huggy-datepicker/index.css';
+import '@huggydigital/huggy-datepicker/index.css';
 
-import 'huggy-datepicker/locale/pt-br';
+import '@huggydigital/huggy-datepicker/locale/pt-br';
 ```
 
 You can also override some of the default locale by `lang`.
@@ -258,6 +258,24 @@ The shortcuts for the range picker
     },
   },
 ];
+```
+or
+```js
+{
+  customShortcut: true,
+  customShortcutText: 'Personalisado',
+  items: [
+    { text: 'today', onClick: () => new Date() },
+    {
+      text: 'Yesterday',
+      onClick: () => {
+        const date = new Date();
+        date.setTime(date.getTime() - 3600 * 1000 * 24);
+        return date;
+      },
+    },
+  ]
+};
 ```
 
 | Attribute | Description                               |
