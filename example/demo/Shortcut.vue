@@ -9,7 +9,7 @@
         value-type="format"
         range
         confirm
-        clear-button
+        cancel
         placeholder="Select date"
       ></date-picker>
     </section>
@@ -46,7 +46,6 @@ export default {
       value3: null,
       shortcuts: {
         customShortcut: true,
-        customShortcutText: 'true',
         items: [
           {
             text: 'Today',

@@ -1,6 +1,6 @@
 # huggy-datepicker
 
-> A Datepicker Component modified from the https://github.com/mengxiong10/vue2-datepicker v3.10.2 project
+> A Vue Datepicker Component modified from the https://github.com/mengxiong10/vue2-datepicker v3.10.2 project
 
 <a href="https://travis-ci.com/huggydigital/huggy-datepicker">
   <img src="https://travis-ci.com/huggydigital/huggy-datepicker.svg?branch=main" alt="build:passed">
@@ -127,8 +127,8 @@ You can also override some of the default locale by `lang`.
 | clearable           | if false, don't show the clear icon              | `boolean`                                       | true           |
 | confirm             | if true, need click the button to change value   | `boolean`                                       | false          |
 | confirm-text        | the text of confirm button                       | `string`                                        | 'OK'           |
-| clear-button        | if true, shows the button to clear the values    | `boolean`                                       | false          |
-| clear-text          | the text of clear button                         | `string`                                        | 'Clear'        |
+| cancel              | if true, shows the cancel button to close popup  | `boolean`                                       | false          |
+| cancel-text         | the text of cancel button                        | `string`                                        | 'Cancel'        |
 | multiple            | if true, multi-select date                       | `boolean`                                       | false          |
 | disabled            | disable the component                            | `boolean`                                       | false          |
 | disabled-date       | specify the date that cannot be selected         | `(date: Date, currentValue: Date[]) => boolean` | -              |

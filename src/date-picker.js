@@ -116,13 +116,13 @@ export default {
       type: String,
       default: 'OK',
     },
-    clearButton: {
+    cancel: {
       type: Boolean,
       default: false,
     },
-    clearText: {
+    cancelText: {
       type: String,
-      default: 'Clear',
+      default: 'Cancel',
     },
     calendarTextFormat: {
       type: Object,
@@ -180,7 +180,7 @@ export default {
       ) {
         this.customShortcutInserted = true;
         shortcuts.push({
-          text: this.shortcuts.CustomShortcutText ? this.shortcuts.CustomShortcutText : 'Custom',
+          text: this.shortcuts.customShortcutText ? this.shortcuts.customShortcutText : 'Custom',
           onClick() {},
           custom: true,
           selected: this.currentValue !== null,
@@ -623,15 +623,15 @@ export default {
             value: this.currentValue,
             emit: this.handleSelectDate,
           })}
-          {this.confirm || this.clearButton ? (
+          {this.confirm || this.cancel ? (
             <div class={`${prefixClass}-footer-buttons`}>
-              {this.clearButton ? (
+              {this.cancel ? (
                 <button
                   type="button"
-                  class={`${prefixClass}-btn ${prefixClass}-datepicker-btn-clear`}
-                  onClick={this.clear}
+                  class={`${prefixClass}-btn ${prefixClass}-datepicker-btn-cancel`}
+                  onClick={this.closePopup}
                 >
-                  {this.clearText}
+                  {this.cancelText}
                 </button>
               ) : (
                 <div />

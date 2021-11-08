@@ -180,7 +180,7 @@ export default {
       if (cellDate.getTime() === new Date().setHours(0, 0, 0, 0)) {
         classes.push('today');
       }
-      const dateCell = new Date(cellDate.getYear(), cellDate.getMonth(), cellDate.getDate())
+      const dateCell = new Date(cellDate.getYear(), cellDate.getMonth(), cellDate.getDate());
 
       if (dateCell.getDate() === startOfMonth(dateCell).getDate()) {
         classes.push('start-month');
@@ -198,19 +198,15 @@ export default {
       return classes.concat(this.getClasses(cellDate, this.innerValue, classes.join(' ')));
     },
     getMonthClasses(month) {
-      if (this.type !== 'month') {
-        return this.calendarMonth === month ? 'active' : '';
-      }
       const classes = [];
+      if (this.calendarMonth === month) classes.push('active');
       const cellDate = this.getMonthCellDate(month);
       classes.push(this.getStateClass(cellDate));
       return classes.concat(this.getClasses(cellDate, this.innerValue, classes.join(' ')));
     },
     getYearClasses(year) {
-      if (this.type !== 'year') {
-        return this.calendarYear === year ? 'active' : '';
-      }
       const classes = [];
+      if (this.calendarYear === year) classes.push('active');
       const cellDate = this.getYearCellDate(year);
       classes.push(this.getStateClass(cellDate));
       return classes.concat(this.getClasses(cellDate, this.innerValue, classes.join(' ')));
