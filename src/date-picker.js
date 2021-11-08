@@ -168,17 +168,20 @@ export default {
       userInput: null,
       defaultOpen: false,
       customShortcutInserted: false,
+      currentShortcut: null,
     };
   },
   computed: {
     shortcutsComputed() {
       const shortcuts = Array.isArray(this.shortcuts) ? this.shortcuts : this.shortcuts.items;
+
       if (
         isObject(this.shortcuts) &&
         this.shortcuts.customShortcut &&
         !this.customShortcutInserted
       ) {
         this.customShortcutInserted = true;
+        this.currentShortcut = shortcuts.length;
         shortcuts.push({
           text: this.shortcuts.customShortcutText ? this.shortcuts.customShortcutText : 'Custom',
           onClick() {},
@@ -229,7 +232,7 @@ export default {
         return '';
       }
       if (Array.isArray(this.innerValue)) {
-        return this.innerValue.map(v => this.formatDate(v)).join(this.innerRangeSeparator);
+        return this.currentValue.map(v => this.formatDate(v)).join(this.innerRangeSeparator);
       }
       return this.formatDate(this.innerValue);
     },
@@ -416,19 +419,20 @@ export default {
       this.$emit('confirm', value);
     },
     handleSelectShortcut(evt) {
-      const index = evt.currentTarget.getAttribute('data-index');
+      const index = parseInt(evt.currentTarget.getAttribute('data-index'), 10);
       this.shortcutsComputed.forEach(shortcut => {
         shortcut.selected = false;
       });
-      const item = this.shortcutsComputed[parseInt(index, 10)];
+      const item = this.shortcutsComputed[index];
       item.selected = true;
       if (isObject(item) && typeof item.onClick === 'function') {
-        if (item.custom) {
-          this.emitValue(this.currentValue, null, !this.confirm);
-        }
         const date = item.onClick(this);
         if (date) {
-          this.emitValue(date, null, !this.confirm);
+          if (this.confirm) {
+            this.currentValue = date;
+          } else {
+            this.emitValue(date, null, !this.confirm);
+          }
         }
       }
     },
@@ -439,10 +443,22 @@ export default {
       this.$emit('update:open', true);
     },
     closePopup() {
+      this.currentValue = this.innerValue;
+      const shortcutsComputedIndex = this.shortcutsComputed.findIndex(v => v.selected === true);
+      if (shortcutsComputedIndex !== -1) this.currentShortcut = shortcutsComputedIndex;
       if (!this.popupVisible) return;
       this.defaultOpen = false;
       this.$emit('close');
       this.$emit('update:open', false);
+    },
+    handleCancel() {
+      this.shortcutsComputed.forEach((value, key) => {
+        value.selected = false;
+        if (key === this.currentShortcut) {
+          value.selected = true;
+        }
+      });
+      this.closePopup();
     },
     blur() {
       // when use slot input
@@ -629,7 +645,7 @@ export default {
                 <button
                   type="button"
                   class={`${prefixClass}-btn ${prefixClass}-datepicker-btn-cancel`}
-                  onClick={this.closePopup}
+                  onClick={this.handleCancel}
                 >
                   {this.cancelText}
                 </button>

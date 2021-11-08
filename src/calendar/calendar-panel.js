@@ -199,15 +199,31 @@ export default {
     },
     getMonthClasses(month) {
       const classes = [];
-      if (this.calendarMonth === month) classes.push('active');
       const cellDate = this.getMonthCellDate(month);
+
+      if (this.type !== 'month') {
+        if (this.isDisabled(cellDate)) {
+          classes.push('disabled');
+        }
+        classes.push(this.calendarMonth === month ? 'active' : '');
+        return classes.join(' ');
+      }
+
       classes.push(this.getStateClass(cellDate));
       return classes.concat(this.getClasses(cellDate, this.innerValue, classes.join(' ')));
     },
     getYearClasses(year) {
       const classes = [];
-      if (this.calendarYear === year) classes.push('active');
       const cellDate = this.getYearCellDate(year);
+
+      if (this.type !== 'year') {
+        if (this.isDisabled(cellDate)) {
+          classes.push('disabled');
+        }
+        classes.push(this.calendarYear === year ? 'active' : '');
+        return classes.join(' ');
+      }
+
       classes.push(this.getStateClass(cellDate));
       return classes.concat(this.getClasses(cellDate, this.innerValue, classes.join(' ')));
     },
