@@ -426,6 +426,9 @@ export default {
       const item = this.shortcutsComputed[index];
       item.selected = true;
       if (isObject(item) && typeof item.onClick === 'function') {
+        if (item.custom) {
+          this.emitValue(this.currentValue, null, !this.confirm);
+        }
         const date = item.onClick(this);
         if (date) {
           if (this.confirm) {
