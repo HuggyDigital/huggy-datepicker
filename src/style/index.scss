@@ -293,6 +293,7 @@
       background-color: $calendar-in-range-background-color;
     }
     &.disabled {
+      pointer-events: none;
       cursor: not-allowed;
       color: $disabled-color;
     }
