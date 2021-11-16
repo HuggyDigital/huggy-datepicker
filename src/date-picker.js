@@ -4,6 +4,7 @@ import { pick, isObject, mergeDeep } from './util/base';
 import { getLocale } from './locale';
 import Popup from './popup';
 import IconCalendar from './icon/icon-calendar';
+import IconCalendarLocke from './icon/icon-calendar-locke';
 import IconTime from './icon/icon-time';
 import IconClose from './icon/icon-close';
 import CalendarPanel from './calendar/calendar-panel';
@@ -159,6 +160,10 @@ export default {
       default() {
         return [];
       },
+    },
+    calendarLockeIcon: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -563,7 +568,8 @@ export default {
           events,
         }
       );
-      const calendarIcon = this.type === 'time' ? <IconTime /> : <IconCalendar />;
+      const iCalendar = this.calendarLockeIcon ? <IconCalendarLocke /> : <IconCalendar />;
+      const calendarIcon = this.type === 'time' ? <IconTime /> : iCalendar;
       return (
         <div class={`${prefixClass}-input-wrapper`} onMousedown={this.openPopup}>
           {input}
