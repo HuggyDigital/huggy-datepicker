@@ -3,15 +3,29 @@
 .#{$namespace}-zoom-in-down-enter-active,
 .#{$namespace}-zoom-in-down-leave-active {
   opacity: 1;
-  transform: scaleY(1);
-  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1),
-    opacity 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-  transform-origin: center top;
+  transform: translateY(0);
+  transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1),
+    opacity 1s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-origin: 0 top;
 }
 
 .#{$namespace}-zoom-in-down-enter,
 .#{$namespace}-zoom-in-down-enter-from,
 .#{$namespace}-zoom-in-down-leave-to {
   opacity: 0;
-  transform: scaleY(0);
+  transform: translateY(-15px);
+}
+
+.#{$namespace}-expand-enter-active,
+.#{$namespace}-expand-leave-active {
+  transition: all 90ms ease-in;
+  transition-delay: 30ms;
+  opacity: 1;
+  width: 635px;
+}
+.#{$namespace}-expand-enter,
+.#{$namespace}-expand-enter-from,
+.#{$namespace}-expand-leave-to {
+  opacity: 0;
+  width: 0;
 }
