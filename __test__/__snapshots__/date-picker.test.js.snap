@@ -22,15 +22,21 @@ exports[`DatePicker prop: attrs of input 1`] = `
   </div>
   <popup-stub
     appendtobody="true"
+    class="collapsed-custom"
   >
     <div
-      class="mx-datepicker-content"
+      class="mx-datepicker-content collapsed"
     >
-      <div
-        class="mx-datepicker-body"
+      <transition-stub
+        appear="true"
+        name="mx-expand"
       >
-        <div />
-      </div>
+        <div
+          class="mx-datepicker-body"
+        >
+          <div />
+        </div>
+      </transition-stub>
     </div>
   </popup-stub>
 </div>
@@ -58,15 +64,21 @@ exports[`DatePicker prop: clearable 1`] = `
   </div>
   <popup-stub
     appendtobody="true"
+    class="collapsed-custom"
   >
     <div
-      class="mx-datepicker-content"
+      class="mx-datepicker-content collapsed"
     >
-      <div
-        class="mx-datepicker-body"
+      <transition-stub
+        appear="true"
+        name="mx-expand"
       >
-        <div />
-      </div>
+        <div
+          class="mx-datepicker-body"
+        >
+          <div />
+        </div>
+      </transition-stub>
     </div>
   </popup-stub>
 </div>
@@ -100,15 +112,21 @@ exports[`DatePicker prop: editable 1`] = `
   </div>
   <popup-stub
     appendtobody="true"
+    class="collapsed-custom"
   >
     <div
-      class="mx-datepicker-content"
+      class="mx-datepicker-content collapsed"
     >
-      <div
-        class="mx-datepicker-body"
+      <transition-stub
+        appear="true"
+        name="mx-expand"
       >
-        <div />
-      </div>
+        <div
+          class="mx-datepicker-body"
+        >
+          <div />
+        </div>
+      </transition-stub>
     </div>
   </popup-stub>
 </div>

@@ -165,6 +165,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    customAlwaysOpen: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -174,7 +178,7 @@ export default {
       defaultOpen: false,
       customShortcutInserted: false,
       currentShortcut: null,
-      isCustom: false,
+      isCustom: true,
     };
   },
   computed: {
@@ -425,7 +429,7 @@ export default {
       this.$emit('confirm', value);
     },
     handleSelectShortcut(evt) {
-      this.isCustom = false;
+      if (!this.customAlwaysOpen) this.isCustom = false;
       const index = parseInt(evt.currentTarget.getAttribute('data-index'), 10);
       this.shortcutsComputed.forEach(shortcut => {
         shortcut.selected = false;
@@ -689,12 +693,13 @@ export default {
   },
   render() {
     const { prefixClass, inline, disabled } = this;
+    // if (!this.customAlwaysOpen) this.isCustom = false
     const sidebar =
       this.hasSlot('sidebar') || this.shortcutsComputed.length ? this.renderSidebar() : null;
     const footer = this.hasSlot('footer') || this.confirm ? this.renderFooter() : null;
     const header = this.hasSlot('header') ? this.renderHeader() : null;
     const content = (
-      <div class={[`${prefixClass}-datepicker-content`]}>
+      <div class={[`${prefixClass}-datepicker-content`, this.isCustom ? 'collapsed' : '']}>
         {sidebar}
         {this.renderContent()}
       </div>
