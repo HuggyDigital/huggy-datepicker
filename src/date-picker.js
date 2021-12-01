@@ -174,6 +174,7 @@ export default {
       defaultOpen: false,
       customShortcutInserted: false,
       currentShortcut: null,
+      isCustom: false,
     };
   },
   computed: {
@@ -424,6 +425,7 @@ export default {
       this.$emit('confirm', value);
     },
     handleSelectShortcut(evt) {
+      this.isCustom = false;
       const index = parseInt(evt.currentTarget.getAttribute('data-index'), 10);
       this.shortcutsComputed.forEach(shortcut => {
         shortcut.selected = false;
@@ -433,6 +435,7 @@ export default {
       if (isObject(item) && typeof item.onClick === 'function') {
         if (item.custom) {
           this.emitValue(this.currentValue, null, !this.confirm);
+          this.isCustom = true;
         }
         const date = item.onClick(this);
         if (date) {
@@ -597,36 +600,44 @@ export default {
         selectone: this.handleSelectOneDate,
       };
       const content = <Component {...{ props, on, ref: 'picker' }} />;
-      return (
-        <div class={`${this.prefixClass}-datepicker-body`}>
-          {this.renderSlot('content', content, {
-            value: this.currentValue,
-            emit: this.handleSelectDate,
-          })}
-        </div>
-      );
+      if (this.isCustom) {
+        return (
+          <transition name={`${this.prefixClass}-expand`} appear>
+            <div class={`${this.prefixClass}-datepicker-body`}>
+              {this.renderSlot('content', content, {
+                value: this.currentValue,
+                emit: this.handleSelectDate,
+              })}
+            </div>
+          </transition>
+        );
+      }
+      return '';
     },
     renderSidebar() {
       const { prefixClass } = this;
       return (
-        <div class={`${prefixClass}-datepicker-sidebar`}>
+        <div class={[`${prefixClass}-datepicker-sidebar`]}>
           {this.renderSlot('sidebar', null, {
             value: this.currentValue,
             emit: this.handleSelectDate,
           })}
-          {this.shortcutsComputed.map((v, i) => (
-            <button
-              key={i}
-              data-index={i}
-              type="button"
-              class={`${prefixClass}-btn ${prefixClass}-btn-text ${prefixClass}-btn-shortcut ${
-                v.selected ? 'active' : ''
-              }`}
-              onClick={this.handleSelectShortcut}
-            >
-              {v.text}
-            </button>
-          ))}
+          {this.shortcutsComputed.map((v, i) => {
+            if (v.selected && v.custom) this.isCustom = true;
+            return (
+              <button
+                key={i}
+                data-index={i}
+                type="button"
+                class={`${prefixClass}-btn ${prefixClass}-btn-text ${prefixClass}-btn-shortcut ${
+                  v.selected ? 'active' : ''
+                }`}
+                onClick={this.handleSelectShortcut}
+              >
+                {v.text}
+              </button>
+            );
+          })}
         </div>
       );
     },
@@ -650,7 +661,7 @@ export default {
           })}
           {this.confirm || this.cancel ? (
             <div class={`${prefixClass}-footer-buttons`}>
-              {this.cancel ? (
+              {this.cancel && this.isCustom ? (
                 <button
                   type="button"
                   class={`${prefixClass}-btn ${prefixClass}-datepicker-btn-cancel`}
@@ -683,7 +694,7 @@ export default {
     const footer = this.hasSlot('footer') || this.confirm ? this.renderFooter() : null;
     const header = this.hasSlot('header') ? this.renderHeader() : null;
     const content = (
-      <div class={`${prefixClass}-datepicker-content`}>
+      <div class={[`${prefixClass}-datepicker-content`]}>
         {sidebar}
         {this.renderContent()}
       </div>
@@ -701,7 +712,7 @@ export default {
         {!inline ? (
           <Popup
             ref="popup"
-            class={this.popupClass}
+            class={[this.popupClass, this.isCustom ? 'collapsed-custom' : '']}
             style={this.popupStyle}
             visible={this.popupVisible}
             appendToBody={this.appendToBody}
