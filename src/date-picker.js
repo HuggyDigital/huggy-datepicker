@@ -190,17 +190,39 @@ export default {
         this.shortcuts.customShortcut &&
         !this.customShortcutInserted
       ) {
+        let shortcutSelected = false;
+        const formatedCurrentValue = this.currentValue.map(item => {
+          return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
+        });
+        shortcuts.forEach(shortcut => {
+          const formatedShortcutValue = shortcut.onClick(this).map(item => {
+            return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
+          });
+          shortcut.selected = formatedCurrentValue.toString() === formatedShortcutValue.toString();
+
+          if (shortcut.selected) {
+            this.isCustom = false;
+            shortcutSelected = true;
+          }
+        });
+
         this.customShortcutInserted = true;
         this.currentShortcut = shortcuts.length;
         shortcuts.push({
           text: this.shortcuts.customShortcutText ? this.shortcuts.customShortcutText : 'Custom',
           onClick() {},
           custom: true,
-          selected: this.currentValue !== null,
+          selected: !shortcutSelected && this.currentValue !== null,
         });
       }
 
       return shortcuts;
+    },
+    hasShortcutCustomCalendar() {
+      if (this.shortcutsComputed.length > 0 && this.isCustom) {
+        return true;
+      }
+      return false;
     },
     popupVisible() {
       return !this.disabled && (typeof this.open === 'boolean' ? this.open : this.defaultOpen);
@@ -627,7 +649,7 @@ export default {
             emit: this.handleSelectDate,
           })}
           {this.shortcutsComputed.map((v, i) => {
-            if (v.selected && v.custom) this.isCustom = true;
+            // if (v.selected && v.custom) this.isCustom = true;
             return (
               <button
                 key={i}
@@ -699,7 +721,12 @@ export default {
     const footer = this.hasSlot('footer') || this.confirm ? this.renderFooter() : null;
     const header = this.hasSlot('header') ? this.renderHeader() : null;
     const content = (
-      <div class={[`${prefixClass}-datepicker-content`, this.isCustom ? 'collapsed' : '']}>
+      <div
+        class={[
+          `${prefixClass}-datepicker-content`,
+          this.hasShortcutCustomCalendar ? 'collapsed' : '',
+        ]}
+      >
         {sidebar}
         {this.renderContent()}
       </div>
@@ -717,7 +744,7 @@ export default {
         {!inline ? (
           <Popup
             ref="popup"
-            class={[this.popupClass, this.isCustom ? 'collapsed-custom' : '']}
+            class={[this.popupClass, this.hasShortcutCustomCalendar ? 'collapsed-custom' : '']}
             style={this.popupStyle}
             visible={this.popupVisible}
             appendToBody={this.appendToBody}
