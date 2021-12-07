@@ -165,7 +165,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    customAlwaysOpen: {
+    shortcutsCalendarAlwaysOpen: {
       type: Boolean,
       default: true,
     },
@@ -205,7 +205,6 @@ export default {
             shortcutSelected = true;
           }
         });
-
         this.customShortcutInserted = true;
         this.currentShortcut = shortcuts.length;
         shortcuts.push({
@@ -451,7 +450,7 @@ export default {
       this.$emit('confirm', value);
     },
     handleSelectShortcut(evt) {
-      if (!this.customAlwaysOpen) this.isCustom = false;
+      if (!this.shortcutsCalendarAlwaysOpen) this.isCustom = false;
       const index = parseInt(evt.currentTarget.getAttribute('data-index'), 10);
       this.shortcutsComputed.forEach(shortcut => {
         shortcut.selected = false;
@@ -626,17 +625,24 @@ export default {
         selectone: this.handleSelectOneDate,
       };
       const content = <Component {...{ props, on, ref: 'picker' }} />;
-      if (this.isCustom) {
+
+      const contentHtml = (
+        <div class={`${this.prefixClass}-datepicker-body`}>
+          {this.renderSlot('content', content, {
+            value: this.currentValue,
+            emit: this.handleSelectDate,
+          })}
+        </div>
+      );
+      if (!this.shortcutsCalendarAlwaysOpen && this.isCustom) {
         return (
           <transition name={`${this.prefixClass}-expand`} appear>
-            <div class={`${this.prefixClass}-datepicker-body`}>
-              {this.renderSlot('content', content, {
-                value: this.currentValue,
-                emit: this.handleSelectDate,
-              })}
-            </div>
+            {contentHtml}
           </transition>
         );
+      }
+      if (this.shortcutsCalendarAlwaysOpen) {
+        return contentHtml;
       }
       return '';
     },
@@ -649,7 +655,6 @@ export default {
             emit: this.handleSelectDate,
           })}
           {this.shortcutsComputed.map((v, i) => {
-            // if (v.selected && v.custom) this.isCustom = true;
             return (
               <button
                 key={i}
@@ -715,7 +720,6 @@ export default {
   },
   render() {
     const { prefixClass, inline, disabled } = this;
-    // if (!this.customAlwaysOpen) this.isCustom = false
     const sidebar =
       this.hasSlot('sidebar') || this.shortcutsComputed.length ? this.renderSidebar() : null;
     const footer = this.hasSlot('footer') || this.confirm ? this.renderFooter() : null;
