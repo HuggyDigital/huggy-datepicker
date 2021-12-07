@@ -169,6 +169,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    isCustomSelected: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -191,20 +195,25 @@ export default {
         !this.customShortcutInserted
       ) {
         let shortcutSelected = false;
-        const formatedCurrentValue = this.currentValue.map(item => {
-          return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
-        });
-        shortcuts.forEach(shortcut => {
-          const formatedShortcutValue = shortcut.onClick(this).map(item => {
+
+        if (!this.isCustomSelected) {
+          const formatedCurrentValue = this.currentValue.map(item => {
             return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
           });
-          shortcut.selected = formatedCurrentValue.toString() === formatedShortcutValue.toString();
+          shortcuts.forEach(shortcut => {
+            const formatedShortcutValue = shortcut.onClick(this).map(item => {
+              return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
+            });
+            shortcut.selected =
+              formatedCurrentValue.toString() === formatedShortcutValue.toString();
 
-          if (shortcut.selected) {
-            this.isCustom = false;
-            shortcutSelected = true;
-          }
-        });
+            if (shortcut.selected) {
+              this.isCustom = false;
+              shortcutSelected = true;
+            }
+          });
+        }
+
         this.customShortcutInserted = true;
         this.currentShortcut = shortcuts.length;
         shortcuts.push({

@@ -143,6 +143,7 @@ You can also override some of the default locale by `lang`.
 | popup-class                    | popup classes                                                         |                                                 | —              |
 | shortcuts                      | set shortcuts to select                                               | `Array<{text, onClick}>` \| `{customShorcut: boolean, customShorcutText: string, items: Array<{text, onClick}>}` | -              |
 | shortcuts-calendar-always-open | if false, datepicker is opened only when custom shortcut is selected  | `boolean`                                       | true           |
+| is-custom-selected             | if true, show preset date as a costum value                           | `boolean`                                       | false          |
 | title-format                   | format of the tooltip in calendar cell                                | [token](#token)                                 | 'YYYY-MM-DD'   |
 | calendar-text-format           | week and months formats in the table date                             | `object`                                        | —              |
 | partial-update                 | whether update date when select year or month                         | `boolean`                                       | false          |
