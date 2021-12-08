@@ -165,6 +165,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    shortcutsCalendarAlwaysOpen: {
+      type: Boolean,
+      default: true,
+    },
+    isCustomSelected: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -174,6 +182,7 @@ export default {
       defaultOpen: false,
       customShortcutInserted: false,
       currentShortcut: null,
+      isCustom: true,
     };
   },
   computed: {
@@ -185,17 +194,43 @@ export default {
         this.shortcuts.customShortcut &&
         !this.customShortcutInserted
       ) {
+        let shortcutSelected = false;
+
+        if (!this.isCustomSelected) {
+          const formatedCurrentValue = this.currentValue.map(item => {
+            return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
+          });
+          shortcuts.forEach(shortcut => {
+            const formatedShortcutValue = shortcut.onClick(this).map(item => {
+              return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
+            });
+            shortcut.selected =
+              formatedCurrentValue.toString() === formatedShortcutValue.toString();
+
+            if (shortcut.selected) {
+              this.isCustom = false;
+              shortcutSelected = true;
+            }
+          });
+        }
+
         this.customShortcutInserted = true;
         this.currentShortcut = shortcuts.length;
         shortcuts.push({
           text: this.shortcuts.customShortcutText ? this.shortcuts.customShortcutText : 'Custom',
           onClick() {},
           custom: true,
-          selected: this.currentValue !== null,
+          selected: !shortcutSelected && this.currentValue !== null,
         });
       }
 
       return shortcuts;
+    },
+    hasShortcutCustomCalendar() {
+      if (this.shortcutsComputed.length > 0 && this.isCustom) {
+        return true;
+      }
+      return false;
     },
     popupVisible() {
       return !this.disabled && (typeof this.open === 'boolean' ? this.open : this.defaultOpen);
@@ -424,6 +459,7 @@ export default {
       this.$emit('confirm', value);
     },
     handleSelectShortcut(evt) {
+      if (!this.shortcutsCalendarAlwaysOpen) this.isCustom = false;
       const index = parseInt(evt.currentTarget.getAttribute('data-index'), 10);
       this.shortcutsComputed.forEach(shortcut => {
         shortcut.selected = false;
@@ -433,6 +469,7 @@ export default {
       if (isObject(item) && typeof item.onClick === 'function') {
         if (item.custom) {
           this.emitValue(this.currentValue, null, !this.confirm);
+          this.isCustom = true;
         }
         const date = item.onClick(this);
         if (date) {
@@ -597,7 +634,8 @@ export default {
         selectone: this.handleSelectOneDate,
       };
       const content = <Component {...{ props, on, ref: 'picker' }} />;
-      return (
+
+      const contentHtml = (
         <div class={`${this.prefixClass}-datepicker-body`}>
           {this.renderSlot('content', content, {
             value: this.currentValue,
@@ -605,28 +643,41 @@ export default {
           })}
         </div>
       );
+      if (!this.shortcutsCalendarAlwaysOpen && this.isCustom) {
+        return (
+          <transition name={`${this.prefixClass}-expand`} appear>
+            {contentHtml}
+          </transition>
+        );
+      }
+      if (this.shortcutsCalendarAlwaysOpen) {
+        return contentHtml;
+      }
+      return '';
     },
     renderSidebar() {
       const { prefixClass } = this;
       return (
-        <div class={`${prefixClass}-datepicker-sidebar`}>
+        <div class={[`${prefixClass}-datepicker-sidebar`]}>
           {this.renderSlot('sidebar', null, {
             value: this.currentValue,
             emit: this.handleSelectDate,
           })}
-          {this.shortcutsComputed.map((v, i) => (
-            <button
-              key={i}
-              data-index={i}
-              type="button"
-              class={`${prefixClass}-btn ${prefixClass}-btn-text ${prefixClass}-btn-shortcut ${
-                v.selected ? 'active' : ''
-              }`}
-              onClick={this.handleSelectShortcut}
-            >
-              {v.text}
-            </button>
-          ))}
+          {this.shortcutsComputed.map((v, i) => {
+            return (
+              <button
+                key={i}
+                data-index={i}
+                type="button"
+                class={`${prefixClass}-btn ${prefixClass}-btn-text ${prefixClass}-btn-shortcut ${
+                  v.selected ? 'active' : ''
+                }`}
+                onClick={this.handleSelectShortcut}
+              >
+                {v.text}
+              </button>
+            );
+          })}
         </div>
       );
     },
@@ -650,7 +701,7 @@ export default {
           })}
           {this.confirm || this.cancel ? (
             <div class={`${prefixClass}-footer-buttons`}>
-              {this.cancel ? (
+              {this.cancel && this.isCustom ? (
                 <button
                   type="button"
                   class={`${prefixClass}-btn ${prefixClass}-datepicker-btn-cancel`}
@@ -683,7 +734,12 @@ export default {
     const footer = this.hasSlot('footer') || this.confirm ? this.renderFooter() : null;
     const header = this.hasSlot('header') ? this.renderHeader() : null;
     const content = (
-      <div class={`${prefixClass}-datepicker-content`}>
+      <div
+        class={[
+          `${prefixClass}-datepicker-content`,
+          this.hasShortcutCustomCalendar ? 'collapsed' : '',
+        ]}
+      >
         {sidebar}
         {this.renderContent()}
       </div>
@@ -701,7 +757,7 @@ export default {
         {!inline ? (
           <Popup
             ref="popup"
-            class={this.popupClass}
+            class={[this.popupClass, this.hasShortcutCustomCalendar ? 'collapsed-custom' : '']}
             style={this.popupStyle}
             visible={this.popupVisible}
             appendToBody={this.appendToBody}

@@ -107,21 +107,28 @@
   margin-bottom: 12px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   z-index: $popup-z-index;
+  min-width: 222px;
+  transition: all 90ms ease-in;
+  transition-delay: 60ms;
+  &.collapsed-custom {
+    min-width: 635px;
+  }
 }
 
 .#{$namespace}-datepicker-content {
-  display: inline-flex;
+  display: flex;
 }
 
 .#{$namespace}-datepicker-sidebar {
   box-sizing: border-box;
   margin: 16px 0;
   padding: 0 16px;
-  border-right: 1px solid $light-gray;
   overflow: auto;
+  width: 100%;
 }
 
 .#{$namespace}-datepicker-body {
+  border-left: 1px solid $light-gray;
   position: relative;
   user-select: none;
 }
@@ -129,7 +136,7 @@
 .#{$namespace}-btn-shortcut {
   display: block;
   height: 36px;
-  width: 100%;
+  min-width: 190px;
   color: $gray-800-light-theme;
   font-size: 14px;
   font-style: normal;
