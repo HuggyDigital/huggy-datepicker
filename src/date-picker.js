@@ -493,19 +493,22 @@ export default {
       this.$emit('update:open', true);
     },
     shortcutSelectedIndex() {
-      const formatedCurrentValue = this.currentValue.map(item => {
-        return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
-      });
-      return this.shortcutsComputed.findIndex(shortcut => {
-        const formatedShortcutValue = shortcut.onClick(this)
-          ? shortcut.onClick(this).map(item => {
-              return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
-            })
-          : null;
+      if (this.currentValue && Array.isArray(this.currentValue)) {
+        const formatedCurrentValue = this.currentValue.map(item => {
+          return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
+        });
+        return this.shortcutsComputed.findIndex(shortcut => {
+          const formatedShortcutValue = shortcut.onClick(this)
+            ? shortcut.onClick(this).map(item => {
+                return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
+              })
+            : null;
 
-        if (!formatedShortcutValue) return true;
-        return formatedCurrentValue.toString() === formatedShortcutValue.toString();
-      });
+          if (!formatedShortcutValue) return true;
+          return formatedCurrentValue.toString() === formatedShortcutValue.toString();
+        });
+      }
+      return -1;
     },
     closePopup(confirmed = false) {
       this.currentValue = this.innerValue;
