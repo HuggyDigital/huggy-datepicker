@@ -200,7 +200,7 @@ export default {
           const formatedCurrentValue = this.currentValue.map(item => {
             return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
           });
-          shortcuts.forEach(shortcut => {
+          shortcuts.forEach((shortcut, index) => {
             const formatedShortcutValue = shortcut.onClick(this).map(item => {
               return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
             });
@@ -210,12 +210,12 @@ export default {
             if (shortcut.selected) {
               this.isCustom = false;
               shortcutSelected = true;
+              this.currentShortcut = index;
             }
           });
         }
 
         this.customShortcutInserted = true;
-        this.currentShortcut = shortcuts.length;
         shortcuts.push({
           text: this.shortcuts.customShortcutText ? this.shortcuts.customShortcutText : 'Custom',
           onClick() {},
@@ -301,6 +301,12 @@ export default {
       handler(val) {
         if (val) {
           this.currentValue = this.innerValue;
+          this.shortcutsComputed.forEach((value, key) => {
+            value.selected = false;
+            if (key === this.currentShortcut) {
+              value.selected = true;
+            }
+          });
         }
       },
     },
@@ -390,7 +396,7 @@ export default {
       this.$emit('input', value);
       this.$emit('change', value, type);
       if (close) {
-        this.closePopup();
+        this.closePopup(true);
       }
       return value;
     },
@@ -468,7 +474,6 @@ export default {
       item.selected = true;
       if (isObject(item) && typeof item.onClick === 'function') {
         if (item.custom) {
-          this.emitValue(this.currentValue, null, !this.confirm);
           this.isCustom = true;
         }
         const date = item.onClick(this);
@@ -487,10 +492,36 @@ export default {
       this.$emit('open', evt);
       this.$emit('update:open', true);
     },
-    closePopup() {
+    shortcutSelectedIndex() {
+      if (this.currentValue && Array.isArray(this.currentValue)) {
+        const formatedCurrentValue = this.currentValue.map(item => {
+          return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
+        });
+        return this.shortcutsComputed.findIndex(shortcut => {
+          const formatedShortcutValue = shortcut.onClick(this)
+            ? shortcut.onClick(this).map(item => {
+                return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
+              })
+            : null;
+
+          if (!formatedShortcutValue) return true;
+          return formatedCurrentValue.toString() === formatedShortcutValue.toString();
+        });
+      }
+      return -1;
+    },
+    closePopup(confirmed = false) {
       this.currentValue = this.innerValue;
-      const shortcutsComputedIndex = this.shortcutsComputed.findIndex(v => v.selected === true);
-      if (shortcutsComputedIndex !== -1) this.currentShortcut = shortcutsComputedIndex;
+      let shortcutsComputedIndex = this.shortcutSelectedIndex();
+
+      if (confirmed)
+        shortcutsComputedIndex = this.shortcutsComputed.findIndex(v => v.selected === true);
+
+      if (shortcutsComputedIndex !== -1) {
+        this.currentShortcut = shortcutsComputedIndex;
+        if (shortcutsComputedIndex !== this.shortcutsComputed.length - 1) this.isCustom = false;
+        else this.isCustom = true;
+      }
       if (!this.popupVisible) return;
       this.defaultOpen = false;
       this.$emit('close');
