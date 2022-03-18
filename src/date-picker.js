@@ -190,7 +190,8 @@ export default {
       const shortcuts = Array.isArray(this.shortcuts) ? this.shortcuts : this.shortcuts.items;
 
       if (isObject(this.shortcuts) && this.shortcuts.customShortcut) {
-        this.customShortcutInserted = !!shortcuts[shortcuts.length - 1].custom;
+        if (shortcuts.length > 0)
+          this.customShortcutInserted = shortcuts[shortcuts.length - 1].custom;
 
         if (!this.customShortcutInserted) {
           let shortcutSelected = false;
