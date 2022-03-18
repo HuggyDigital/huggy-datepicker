@@ -462,8 +462,6 @@ export default {
     },
     handleConfirmDate() {
       const value = this.emitValue(this.currentValue);
-      localStorage.setItem('date1', value[0]);
-      localStorage.setItem('date2', value[1]);
       this.$emit('confirm', value);
     },
     handleSelectShortcut(evt) {
