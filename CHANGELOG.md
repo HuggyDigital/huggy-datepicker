@@ -1,3 +1,7 @@
+## [1.1.12](https://github.com/huggydigital/huggy-datepicker/compare/v1.1.11...v1.1.12) (2022-03-28)
+
+
+
 ## [1.1.11](https://github.com/huggydigital/huggy-datepicker/compare/v1.1.10...v1.1.11) (2022-03-18)
 
 
