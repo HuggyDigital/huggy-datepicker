@@ -188,38 +188,40 @@ export default {
   computed: {
     shortcutsComputed() {
       const shortcuts = Array.isArray(this.shortcuts) ? this.shortcuts : this.shortcuts.items;
-
       if (isObject(this.shortcuts) && this.shortcuts.customShortcut) {
         if (shortcuts.length > 0)
           this.customShortcutInserted = shortcuts[shortcuts.length - 1].custom;
 
-        let shortcutSelected = false;
-
-        if (!this.isCustomSelected) {
-          const formatedCurrentValue = this.currentValue.map(item => {
-            return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
-          });
-          shortcuts.forEach((shortcut, index) => {
-            const formatedShortcutValue =
-              typeof shortcut.onClick(this) !== 'undefined'
-                ? shortcut.onClick(this).map(item => {
-                    return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
-                  })
-                : '';
-            shortcut.selected =
-              formatedCurrentValue.toString() === formatedShortcutValue.toString();
-
-            if (shortcut.selected) {
-              this.isCustom = false;
-              shortcutSelected = true;
-              this.currentShortcut = index;
-            }
-          });
-        }
-
         if (!this.customShortcutInserted) {
+          let shortcutSelected = false;
+
+          if (!this.isCustomSelected) {
+            const formatedCurrentValue = this.currentValue.map(item => {
+              return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
+            });
+            shortcuts.forEach((shortcut, index) => {
+              const formatedShortcutValue =
+                typeof shortcut.onClick(this) !== 'undefined'
+                  ? shortcut.onClick(this).map(item => {
+                      return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
+                    })
+                  : '';
+              shortcut.selected =
+                formatedCurrentValue.toString() === formatedShortcutValue.toString();
+
+              if (shortcut.selected) {
+                this.isCustom = false;
+                shortcutSelected = true;
+                this.currentShortcut = index;
+              }
+            });
+          }
+
           this.customShortcutInserted = true;
-          if (!this.currentShortcut) this.currentShortcut = shortcuts.length;
+          if (!shortcutSelected) {
+            this.currentShortcut = shortcuts.length;
+            this.isCustom = true;
+          }
           shortcuts.push({
             text: this.shortcuts.customShortcutText ? this.shortcuts.customShortcutText : 'Custom',
             onClick() {},
