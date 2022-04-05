@@ -1,3 +1,12 @@
+## [1.1.13](https://github.com/huggydigital/huggy-datepicker/compare/v1.1.12...v1.1.13) (2022-04-05)
+
+
+### Reverts
+
+* Revert "fix minimist" ([519e2de](https://github.com/huggydigital/huggy-datepicker/commit/519e2de5041225997adab77ce6bd317e1cd3cd7b))
+
+
+
 ## [1.1.12](https://github.com/huggydigital/huggy-datepicker/compare/v1.1.11...v1.1.12) (2022-03-28)
 
 
