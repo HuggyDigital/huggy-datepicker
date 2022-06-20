@@ -111,7 +111,12 @@
   transition: all 90ms ease-in;
   transition-delay: 60ms;
   &.collapsed-custom {
-    min-width: 635px;
+    min-width: initial;
+
+    .#{$namespace}-btn-shortcut {
+      min-width: 133px;
+      transition-delay: 60ms;
+    }
   }
 }
 
@@ -131,6 +136,26 @@
   border-left: 1px solid $light-gray;
   position: relative;
   user-select: none;
+  &.wrapper-column {
+    .#{$namespace}-range-wrapper {
+      flex-direction: column;
+      .#{$namespace}-calendar-panel-date:first-child {
+        .#{$namespace}-btn-icon-right {
+          top: 306px !important;
+        }
+      }
+    }
+    .#{$namespace}-calendar {
+      &:first-of-type {
+        padding-right: 24px;
+        padding-bottom: 12px;
+      }
+      &:last-of-type {
+        padding-left: 24px;
+        padding-top: 12px;
+      }
+    }
+  }
 }
 
 .#{$namespace}-btn-shortcut {
@@ -145,8 +170,10 @@
   letter-spacing: 0.25px;
   text-align: left;
   padding: 0 16px;
+  margin: 2px 0;
   //background-color: $inrange-color;
   border-radius: 8px;
+  transition: $transition-btn;
   &:hover {
     color: $calendar-in-range-color;
     background-color: $calendar-in-range-background-color;
@@ -160,11 +187,11 @@
 
 .#{$namespace}-range-wrapper {
   display: flex;
-  @media (max-width: 750px) {
+  @media (max-width: 1240px) {
     flex-direction: column;
     .#{$namespace}-calendar-panel-date:first-child {
       .#{$namespace}-btn-icon-right {
-        top: 316px !important;
+        top: 306px !important;
       }
     }
   }
@@ -176,8 +203,8 @@
     .#{$namespace}-btn-icon-right {
       position: absolute;
       height: unset;
-      top: 26px;
-      right: 16px;
+      top: 28px;
+      right: 32px;
     }
   }
 
@@ -185,8 +212,8 @@
     .#{$namespace}-btn-icon-left {
       position: absolute;
       height: unset;
-      top: 26px;
-      left: 16px;
+      top: 28px;
+      left: 32px;
     }
     .#{$namespace}-btn-icon-right {
       display: none;
@@ -200,7 +227,7 @@
 }
 
 .#{$namespace}-datepicker-footer {
-  padding: 8px 12px;
+  padding: 16px;
   text-align: right;
   border-top: 1px solid $border-color;
 }
@@ -210,29 +237,42 @@
   justify-content: space-between;
 
   button {
-    border: solid 1px #e0e0e0;
-    border-radius: 32px;
-    padding: 6px 24px;
-    line-height: 1.43;
+    border: unset;
+    border-radius: 16px;
+    padding: 7px 16px;
+    line-height: 18px;
+    font-weight: 500;
     text-align: center;
     vertical-align: middle;
     display: inline-block;
-    letter-spacing: 1.25px;
+    letter-spacing: 1px;
+    transition: $transition-btn;
   }
 
   .#{$namespace}-datepicker-btn-confirm {
-    color: $primary-color;
+    background-color: $primary-color;
+    color: #fff;
 
     &:hover {
-      background-color: $inrange-color;
-      border-color: #e0e0e0;
+      background-color: $persian-blue-300;
+    }
+
+    &:active,
+    &:focus-visible {
+      background-color: $persian-blue-700;
     }
   }
 
   .#{$namespace}-datepicker-btn-cancel {
     border: unset;
+    color: $mine-shaft-400;
     &:hover {
-      color: mix(#fff, $default-color, 40%)
+      background-color: $mine-shaft-10;
+    }
+    &:active,
+    &:focus-visible {
+      background-color: $mine-shaft-30;
+      color: $mine-shaft-700;
     }
   }
 }
@@ -240,13 +280,30 @@
 .#{$namespace}-calendar {
   box-sizing: border-box;
   width: 256px;
-  padding: 16px;
+  padding: 24px;
+  &:first-of-type {
+    padding-right: 12px;
+  }
+  &:last-of-type {
+    padding-left: 12px;
+  }
+
+  @media (max-width: 1240px) {
+    &:first-of-type {
+      padding-right: 24px;
+      padding-bottom: 12px;
+    }
+    &:last-of-type {
+      padding-left: 24px;
+      padding-top: 12px;
+    }
+  }
 }
 
 .#{$namespace}-calendar-header {
   box-sizing: border-box;
-  height: 34px;
-  line-height: 34px;
+  height: 24px;
+  line-height: 22px;
   text-align: center;
   overflow: hidden;
 }
@@ -283,6 +340,7 @@
   position: relative;
   height: 224px;
   box-sizing: border-box;
+  margin-top: 5px;
   .cell {
     cursor: pointer;
     border-radius: 8px;

@@ -8,6 +8,7 @@
         format="DD/MM/YYYY"
         value-type="format"
         range
+        :shortcuts-calendar-always-open="false"
         confirm
         cancel
         placeholder="Select date"
