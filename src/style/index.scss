@@ -136,6 +136,26 @@
   border-left: 1px solid $light-gray;
   position: relative;
   user-select: none;
+  &.wrapper-column {
+    .#{$namespace}-range-wrapper {
+      flex-direction: column;
+      .#{$namespace}-calendar-panel-date:first-child {
+        .#{$namespace}-btn-icon-right {
+          top: 306px !important;
+        }
+      }
+    }
+    .#{$namespace}-calendar {
+      &:first-of-type {
+        padding-right: 24px;
+        padding-bottom: 12px;
+      }
+      &:last-of-type {
+        padding-left: 24px;
+        padding-top: 12px;
+      }
+    }
+  }
 }
 
 .#{$namespace}-btn-shortcut {
@@ -270,12 +290,12 @@
 
   @media (max-width: 1240px) {
     &:first-of-type {
-    padding-right: 24px;
-    padding-bottom: 12px;
+      padding-right: 24px;
+      padding-bottom: 12px;
     }
     &:last-of-type {
-    padding-left: 24px;
-    padding-top: 12px;
+      padding-left: 24px;
+      padding-top: 12px;
     }
   }
 }

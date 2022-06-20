@@ -79,7 +79,7 @@ export default {
     onDateMouseLeave() {
       this.hoveredValue = null;
     },
-    emitDate(dates, type, name='select') {
+    emitDate(dates, type, name = 'select') {
       this.$emit(name, dates, type);
     },
     updateStartCalendar(value) {
@@ -117,7 +117,7 @@ export default {
 
       if (/disabled|active/.test(classnames)) return classes;
 
-      const inRange = (data, range, fn = v => v.getTime()) => {
+      const inRange = (data, range, fn = (v) => v.getTime()) => {
         const value = fn(data);
         let [min, max] = range.map(fn);
         if (min > max) {
@@ -159,6 +159,10 @@ export default {
 
     const { prefixClass } = this;
 
-    return <div class={`${prefixClass}-range-wrapper`}>{calendarRange}</div>;
+    return (
+      <div class={`${prefixClass}-range-wrapper ${this.columnCalendar ? 'wrapper-column' : ''}`}>
+        {calendarRange}
+      </div>
+    );
   },
 };
