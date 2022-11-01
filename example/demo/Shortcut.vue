@@ -46,7 +46,7 @@ export default {
       value2: null,
       value3: null,
       shortcuts: {
-        customShortcut: false,
+        customShortcut: true,
         items: [
           {
             text: 'Today',

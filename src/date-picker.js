@@ -64,6 +64,10 @@ export default {
     rangeSeparator: {
       type: String,
     },
+    simpleRangeText: {
+      type: Boolean,
+      default: false,
+    },
     lang: {
       type: [String, Object],
     },
@@ -287,6 +291,10 @@ export default {
         return '';
       }
       if (Array.isArray(this.innerValue)) {
+        const initialDate = this.formatDate(this.innerValue[0]);
+        if (this.simpleRangeText && initialDate === this.formatDate(this.innerValue[1])) {
+          return initialDate;
+        }
         return this.currentValue.map((v) => this.formatDate(v)).join(this.innerRangeSeparator);
       }
       return this.formatDate(this.innerValue);

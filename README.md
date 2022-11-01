@@ -148,6 +148,7 @@ You can also override some of the default locale by `lang`.
 | calendar-text-format           | week and months formats in the table date                             | `object`                                        | —              |
 | partial-update                 | whether update date when select year or month                         | `boolean`                                       | false          |
 | range-separator                | text of range separator                                               | `string`                                        | ' ~ '          |
+| simple-range-text              | don't show range text when only one day is selected                   | `string`                                        | false          |
 | show-week-number               | determine whether show week number                                    | `boolean`                                       | false          |
 | hour-step                      | interval between hours in time picker                                 | 1 - 60                                          | 1              |
 | minute-step                    | interval between minutes in time picker                               | 1 - 60                                          | 1              |
