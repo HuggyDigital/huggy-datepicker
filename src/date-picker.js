@@ -192,7 +192,7 @@ export default {
   computed: {
     shortcutsComputed() {
       const shortcuts = Array.isArray(this.shortcuts) ? this.shortcuts : this.shortcuts.items;
-      if (isObject(this.shortcuts) && this.shortcuts.customShortcut) {
+      if (isObject(this.shortcuts)) {
         if (shortcuts.length > 0)
           this.customShortcutInserted = shortcuts[shortcuts.length - 1].custom;
 
@@ -226,12 +226,16 @@ export default {
             this.currentShortcut = shortcuts.length;
             this.isCustom = true;
           }
-          shortcuts.push({
-            text: this.shortcuts.customShortcutText ? this.shortcuts.customShortcutText : 'Custom',
-            onClick() {},
-            custom: true,
-            selected: !shortcutSelected && this.currentValue !== null,
-          });
+          if (this.shortcuts.customShortcut) {
+            shortcuts.push({
+              text: this.shortcuts.customShortcutText
+                ? this.shortcuts.customShortcutText
+                : 'Custom',
+              onClick() {},
+              custom: true,
+              selected: !shortcutSelected && this.currentValue !== null,
+            });
+          }
         }
       }
 
