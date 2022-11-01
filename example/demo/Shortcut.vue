@@ -42,11 +42,11 @@ export default {
   name: 'Basic',
   data() {
     return {
-      value1: ['01/10/2021', '21/10/2021'],
+      value1: [this.getDate(), this.getDate()],
       value2: null,
       value3: null,
       shortcuts: {
-        customShortcut: true,
+        customShortcut: false,
         items: [
           {
             text: 'Today',
@@ -69,6 +69,15 @@ export default {
     };
   },
   methods: {
+    getDate() {
+      let today = new Date();
+      const dd = String(today.getDate()).padStart(2, '0');
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const yyyy = today.getFullYear();
+
+      today = `${dd}/${mm}/${yyyy}`;
+      return today;
+    },
     selectNextThreeDay(emit) {
       const start = new Date();
       const end = new Date();
