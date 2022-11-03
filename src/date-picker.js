@@ -64,6 +64,10 @@ export default {
     rangeSeparator: {
       type: String,
     },
+    simpleRangeText: {
+      type: Boolean,
+      default: false,
+    },
     lang: {
       type: [String, Object],
     },
@@ -192,7 +196,7 @@ export default {
   computed: {
     shortcutsComputed() {
       const shortcuts = Array.isArray(this.shortcuts) ? this.shortcuts : this.shortcuts.items;
-      if (isObject(this.shortcuts) && this.shortcuts.customShortcut) {
+      if (isObject(this.shortcuts)) {
         if (shortcuts.length > 0)
           this.customShortcutInserted = shortcuts[shortcuts.length - 1].custom;
 
@@ -226,12 +230,16 @@ export default {
             this.currentShortcut = shortcuts.length;
             this.isCustom = true;
           }
-          shortcuts.push({
-            text: this.shortcuts.customShortcutText ? this.shortcuts.customShortcutText : 'Custom',
-            onClick() {},
-            custom: true,
-            selected: !shortcutSelected && this.currentValue !== null,
-          });
+          if (this.shortcuts.customShortcut) {
+            shortcuts.push({
+              text: this.shortcuts.customShortcutText
+                ? this.shortcuts.customShortcutText
+                : 'Custom',
+              onClick() {},
+              custom: true,
+              selected: !shortcutSelected && this.currentValue !== null,
+            });
+          }
         }
       }
 
@@ -283,6 +291,10 @@ export default {
         return '';
       }
       if (Array.isArray(this.innerValue)) {
+        const initialDate = this.formatDate(this.innerValue[0]);
+        if (this.simpleRangeText && initialDate === this.formatDate(this.innerValue[1])) {
+          return initialDate;
+        }
         return this.currentValue.map((v) => this.formatDate(v)).join(this.innerRangeSeparator);
       }
       return this.formatDate(this.innerValue);
