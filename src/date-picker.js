@@ -542,7 +542,11 @@ export default {
 
       if (shortcutsComputedIndex !== -1) {
         this.currentShortcut = shortcutsComputedIndex;
-        if (shortcutsComputedIndex !== this.shortcutsComputed.length - 1) this.isCustom = false;
+        if (
+          shortcutsComputedIndex !== this.shortcutsComputed.length - 1 ||
+          !this.shortcuts.customShortcut
+        )
+          this.isCustom = false;
         else this.isCustom = true;
       }
       if (!this.popupVisible) return;
