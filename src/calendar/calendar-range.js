@@ -72,6 +72,11 @@ export default {
         this.innerValue = [date, new Date(NaN)];
         this.emitDate(this.innerValue, type, 'selectone');
       }
+
+      const diffDays = Math.ceil(
+        Math.abs(this.innerValue[1] - this.innerValue[0]) / (1000 * 60 * 60 * 24)
+      );
+      this.$emit('selectRange', diffDays);
     },
     onDateMouseEnter(cell) {
       this.hoveredValue = cell;

@@ -234,7 +234,7 @@
 
 .#{$namespace}-footer-buttons {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
 
   button {
     border: unset;
@@ -252,6 +252,7 @@
   .#{$namespace}-datepicker-btn-confirm {
     background-color: $primary-color;
     color: #fff;
+    margin-left: auto;
 
     &:hover {
       background-color: $persian-blue-300;
@@ -274,6 +275,44 @@
       background-color: $mine-shaft-30;
       color: $mine-shaft-700;
     }
+  }
+}
+
+.#{$namespace}-footer-warning {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: #F8F8F8;
+  border: 1px solid #E1E1E1;
+  border-radius: 8px;
+  padding: 7px 16px;
+  margin: 0 16px 0 auto;
+  color: #191D27;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.4px;
+
+  span {
+    display: flex;
+    align-items: center;
+    text-align: left;
+
+    &.icon {
+      margin-right: 8px;
+    }
+  }
+  & + .#{$namespace}-datepicker-btn-confirm {
+    margin: 0;
+    pointer-events: none;
+    cursor: not-allowed;
+    background-color: #CFCFCF;
+    color: #757575;
+  }
+
+  @media (max-width: 1240px) {
+    max-width: 146px;
+    margin: 0 auto;
   }
 }
 

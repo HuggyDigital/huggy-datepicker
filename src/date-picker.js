@@ -4,6 +4,7 @@ import { pick, isObject, mergeDeep } from './util/base';
 import { getLocale } from './locale';
 import Popup from './popup.vue';
 import IconCalendar from './icon/icon-calendar.vue';
+import IconWarning from './icon/icon-warning.vue';
 import IconCalendarLocke from './icon/icon-calendar-locke.vue';
 import IconTime from './icon/icon-time.vue';
 import IconClose from './icon/icon-close.vue';
@@ -181,6 +182,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    maxDaysRange: {
+      type: Object,
+      default: null,
+    },
   },
   data() {
     return {
@@ -191,6 +196,7 @@ export default {
       customShortcutInserted: false,
       currentShortcut: null,
       isCustom: true,
+      maxLimitReached: false,
     };
   },
   computed: {
@@ -474,6 +480,9 @@ export default {
       this.currentValue = val;
       this.currentValue = val2;
     },
+    handleSelectMaxLimit(days) {
+      this.maxLimitReached = this.maxDaysRange ? days > this.maxDaysRange.days : false;
+    },
     clear() {
       this.setCustomShortcut();
       this.emitValue(this.range ? [null, null] : null, null, !this.confirm);
@@ -690,6 +699,7 @@ export default {
         ...pick(this.$listeners, Component.emits || []),
         select: this.handleSelectDate,
         selectone: this.handleSelectOneDate,
+        selectRange: this.handleSelectMaxLimit,
       };
       const content = <Component {...{ props, on, ref: 'picker' }} />;
 
@@ -774,6 +784,14 @@ export default {
               ) : (
                 <div />
               )}
+              {this.maxDaysRange && this.isCustom && this.maxLimitReached ? (
+                <div class={`${prefixClass}-footer-warning`}>
+                  <span class="icon">
+                    <IconWarning />
+                  </span>
+                  <span>{this.maxDaysRange.text}</span>
+                </div>
+              ) : null}
               {this.confirm ? (
                 <button
                   type="button"
