@@ -11,7 +11,7 @@
     "/index.*",
     "/scss"
   ],
-  "version": "1.1.17",
+  "version": "1.1.18",
   "scripts": {
     "dev": "parcel ./example/dev.html --open --port 2235",
     "build:index": "cross-env NODE_ENV=production rollup -c",
@@ -48,10 +48,8 @@
     "url": "https://github.com/huggydigital/huggy-datepicker/issues"
   },
   "homepage": "https://github.com/huggydigital/huggy-datepicker#readme",
-  "peerDependencies": {
-    "vue": "^2.5.0"
-  },
   "dependencies": {
+    "vue": "^2.5.0",
     "date-format-parse": "^0.2.7"
   },
   "devDependencies": {
