@@ -20,16 +20,24 @@ then
   npm version $VERSION --message "$VERSION"
 
   # publish
-  git push origin main
-  git push origin refs/tags/v$VERSION
-  git checkout dev
-  git rebase main
-  git push origin dev
-
   if [[ $VERSION =~ "beta" ]]
   then
     npm publish --tag beta
   else
     npm publish
   fi
+
+  echo "Publish $VERSION success"
+
+  # sync
+  git push origin main
+  git push origin refs/tags/v$VERSION
+  git checkout dev
+  git rebase main
+  git push origin dev
+
+  echo "sync success"
+
+  npm run deploy $VERSION
+
 fi

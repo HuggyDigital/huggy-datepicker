@@ -1,7 +1,5 @@
 # huggy-datepicker
 
-> A Vue Datepicker Component modified from the https://github.com/mengxiong10/vue2-datepicker v3.10.2 project
-
 <a href="https://travis-ci.com/huggydigital/huggy-datepicker">
   <img src="https://travis-ci.com/huggydigital/huggy-datepicker.svg?branch=main" alt="build:passed">
 </a>

@@ -1,15 +1,16 @@
 .vscode
 .cache
+.DS_Store
 
-.coveralls.yml
 _site
 
 node_modules
 
-/dist
-
-/locale
-
 /index.*
+!index.html
+
+dist
 
 /scss
+
+/temp

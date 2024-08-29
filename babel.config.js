@@ -1,21 +1,21 @@
 // need to compile node_modules (eg: vue-runtime-helps)
-module.exports = api => {
+module.exports = (api) => {
   api.cache(false);
   return {
     presets: [
-      ['@vue/babel-preset-jsx'],
       [
         '@babel/preset-env',
         {
           modules: false,
         },
       ],
+      '@babel/preset-typescript',
     ],
-    plugins: ['@babel/plugin-transform-object-assign'],
+    plugins: ['@vue/babel-plugin-jsx'],
     env: {
       test: {
+        plugins: ['@vue/babel-plugin-jsx'],
         presets: [
-          ['@vue/babel-preset-jsx'],
           [
             '@babel/preset-env',
             {
@@ -24,6 +24,7 @@ module.exports = api => {
               },
             },
           ],
+          '@babel/preset-typescript',
         ],
       },
     },

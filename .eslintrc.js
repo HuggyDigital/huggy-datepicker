@@ -1,38 +1,35 @@
 module.exports = {
-  root: true,
-  parserOptions: {
-    parser: 'babel-eslint',
-  },
   env: {
     browser: true,
     jest: true,
     es6: true,
+    node: true,
   },
-  settings: {
-    'import/resolver': {
-      node: {
-        extensions: ['.js', '.jsx', '.vue'],
-      },
+  parser: 'vue-eslint-parser',
+  parserOptions: {
+    parser: '@typescript-eslint/parser', // Specifies the ESLint parser
+    ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
+    sourceType: 'module', // Allows for the use of imports
+    ecmaFeatures: {
+      // tsx: true, // Allows for the parsing of JSX
+      tsx: true,
     },
-    'import/extensions': ['.js', '.jsx', '.vue'],
   },
-  extends: ['airbnb-base', 'plugin:vue/recommended', 'prettier', 'prettier/vue'],
-
-  plugins: ['vue'],
-
+  extends: [
+    'plugin:vue/vue3-recommended',
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin
+    'plugin:prettier/recommended', // Enables eslint-plugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
+  ],
   rules: {
-    // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-console': ['error', { allow: ['warn', 'error'] }],
-    'no-plusplus': 'off',
-    'no-underscore-dangle': 'off',
-    'no-param-reassign': 'off',
-    'no-restricted-globals': 'off',
-    'import/prefer-default-export': 'off',
-    'import/no-unresolved': [2, { ignore: ['@huggydigital/huggy-datepicker'] }],
-    'import/no-extraneous-dependencies': 'off',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': ['error'],
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
     'vue/require-default-prop': 'off',
-    'vue/require-prop-types': 'off',
-    'vue/no-v-html': 'off',
+    // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
+    // e.g. "@typescript-eslint/explicit-function-return-type": "off",
   },
 };

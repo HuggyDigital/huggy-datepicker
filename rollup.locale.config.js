@@ -1,56 +1,48 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import resolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
-import babel from 'rollup-plugin-babel';
+import typescript from 'rollup-plugin-typescript2';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import fs from 'fs';
+import path from 'path';
 
-const fs = require('fs');
-const path = require('path');
-
-const localePath = path.resolve(__dirname, 'src/locale');
+const localePath = path.resolve(__dirname, 'lib/locale');
 const fileList = fs.readdirSync(localePath);
 
 const plugins = [
-  resolve({
-    extensions: ['.js', '.json'],
+  nodeResolve(),
+  typescript({
+    useTsconfigDeclarationDir: true,
+    tsconfig: 'tsconfig.locale.json',
   }),
-  babel({
-    exclude: 'node_modules/**',
-  }),
-  commonjs(),
 ];
 
-const umd = fileList.map(file => {
+export function camelcase(str) {
+  const camelizeRE = /-(\w)/g;
+  return str.replace(camelizeRE, (_, c) => (c ? c.toUpperCase() : ''));
+}
+
+const config = fileList.map((file) => {
   const input = path.join(localePath, file);
-  const external = ['huggy-datepicker'];
-  const name = path.basename(file, '.js').replace(/-(\w+)/g, (m, p1) => p1.toUpperCase());
+  const external = ['@huggydigital/huggy-datepicker'];
+  const filename = path.basename(file, '.ts');
   return {
     input,
     plugins,
     external,
-    output: {
-      file: `locale/${file}`,
-      format: 'umd',
-      name: `DatePicker.lang.${name}`,
-      globals: {
-        'huggy-datepicker': 'DatePicker',
+    output: [
+      {
+        file: `locale/${filename}.js`,
+        format: 'umd',
+        name: `DatePicker.lang.${camelcase(filename)}`,
+        globals: {
+          '@huggydigital/huggy-datepicker': 'DatePicker',
+        },
       },
-    },
+      {
+        file: `locale/${filename}.es.js`,
+        format: 'esm',
+        exports: 'named',
+      },
+    ],
   };
 });
 
-const esm = fileList.map(file => {
-  const input = path.join(localePath, file);
-  const external = id => !id.startsWith('.') && !id.startsWith('/');
-  return {
-    input,
-    plugins,
-    external,
-    output: {
-      file: `locale/es/${file}`,
-      format: 'esm',
-      exports: 'named',
-    },
-  };
-});
-
-export default [...esm, ...umd];
+export default config;
