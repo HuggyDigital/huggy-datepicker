@@ -10,7 +10,7 @@ export default defineConfig(({ command }) => {
   const devLibPath = path.resolve(__dirname, '../lib');
   const prodLibPath = path.resolve(__dirname, '../index.es');
   return {
-    base: '/@huggydigital/huggy-datepicker/',
+    base: '/huggy-datepicker/',
     plugins: [vue(), vueJsx({ mergeProps: false }), svgLoader(), mdPlugin],
     resolve: {
       alias: {
