@@ -85,10 +85,13 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
   const maxLimitReached = ref(false);
 
   const shortcutsComputed = computed(() => {
-    const shortcuts = Array.isArray(props.shortcuts) ? props.shortcuts : props.shortcuts.items;
-    if (typeof props.shortcuts === 'object') {
-      if (shortcuts.length > 0)
+    const isArray = Array.isArray(props.shortcuts)
+    const shortcuts = isArray ? props.shortcuts : props.shortcuts.items;
+
+    if (typeof props.shortcuts === 'object' && !isArray) {
+      if (shortcuts.length > 0) {
         customShortcutInserted.value = shortcuts[shortcuts.length - 1].custom;
+      }
 
       if (!customShortcutInserted.value) {
         let shortcutSelected = false;
@@ -120,7 +123,7 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
           currentShortcut.value = shortcuts.length;
           isCustom.value = true;
         }
-        if (props.shortcuts.customShortcut) {
+        if (props.shortcuts?.customShortcut) {
           shortcuts.push({
             text: props.shortcuts.customShortcutText
               ? props.shortcuts.customShortcutText
