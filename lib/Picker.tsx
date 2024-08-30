@@ -85,7 +85,7 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
   const maxLimitReached = ref(false);
 
   const shortcutsComputed = computed(() => {
-    const isArray = Array.isArray(props.shortcuts)
+    const isArray = Array.isArray(props.shortcuts);
     const shortcuts = isArray ? props.shortcuts : props.shortcuts.items;
 
     if (typeof props.shortcuts === 'object' && !isArray) {

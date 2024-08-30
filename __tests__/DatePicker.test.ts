@@ -261,6 +261,7 @@ describe('DatePicker', () => {
     it(`prop: appendToBody = ${item}`, () => {
       wrapper = mount(DatePicker, {
         props: {
+          value: new Date(2021, 10, 11),
           open: true,
           appendToBody: item,
         },

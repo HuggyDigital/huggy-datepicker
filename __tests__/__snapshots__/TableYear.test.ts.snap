@@ -7,6 +7,22 @@ exports[`TableYear decade=2010 1`] = `
   <div
     class="mx-calendar-header"
   >
+    <button
+      class="mx-btn mx-btn-text mx-btn-icon-left"
+      type="button"
+    >
+      <i
+        class="mx-icon-left"
+      />
+    </button>
+    <button
+      class="mx-btn mx-btn-text mx-btn-icon-right"
+      type="button"
+    >
+      <i
+        class="mx-icon-right"
+      />
+    </button>
     <!---->
     <!---->
     <span
