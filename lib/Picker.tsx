@@ -106,8 +106,7 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
                   return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
                 })
               : '';
-          shortcut.selected =
-            formatedCurrentValue.toString() === formatedShortcutValue.toString();
+          shortcut.selected = formatedCurrentValue.toString() === formatedShortcutValue.toString();
 
           if (shortcut.selected) {
             isCustom.value = false;
@@ -124,9 +123,7 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
 
       if (!isArray && props.shortcuts?.customShortcut) {
         shortcuts.push({
-          text: props.shortcuts.customShortcutText
-            ? props.shortcuts.customShortcutText
-            : 'Custom',
+          text: props.shortcuts.customShortcutText ? props.shortcuts.customShortcutText : 'Custom',
           onClick() {},
           custom: true,
           selected: !shortcutSelected && currentValue.value !== null,
