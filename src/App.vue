@@ -1,88 +1,108 @@
 <template>
-  <div>
-    <button @click="append = !append">button</button>
-    <DatePicker
-      v-model:value="value"
-      v-bind="inputProps"
-      :clearable="false"
-      :append-to-body="append"
-      type="datetime"
-      :time-picker-options="{ start: '00:00', end: '09:00', step: '00:30' }"
-      :disabled-date="(date) => date < new Date(2021, 10, 9)"
-      :open="true"
-    ></DatePicker>
-    <DatePicker
-      v-model:value="rangeValue"
-      :append-to-body="false"
-      range
-      :shortcuts="shortcuts"
-      :editable="false"
-    ></DatePicker>
+  <div class="box">
+    <section>
+      <p>shortcuts</p>
+      <date-picker
+        v-model:value="value1"
+        :shortcuts="shortcuts"
+        format="DD/MM/YYYY"
+        value-type="format"
+        range
+        simple-range-text
+        :max-days-range="{ days: 10, text: 'ALLOWED_DAYS_LIMIT' }"
+        :disabled-date="notAfterToday"
+        :shortcuts-calendar-always-open="false"
+        confirm
+        cancel
+        placeholder="Select date"
+      ></date-picker>
+    </section>
+    <section>
+      <p>header slot</p>
+      <date-picker v-model:value="value2" placeholder="Select date">
+        <template #header="{ emit }">
+          <button class="mx-btn mx-btn-text" @click="emit(new Date())">Today</button>
+        </template>
+      </date-picker>
+    </section>
+    <section>
+      <p>footer slot</p>
+      <date-picker v-model:value="value3" range placeholder="Select date range">
+        <template #footer="{ emit }">
+          <div style="text-align: left">
+            <button class="mx-btn mx-btn-text" @click="selectNextThreeDay(emit)">
+              NextThreeDay
+            </button>
+          </div>
+        </template>
+      </date-picker>
+    </section>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script>
 import DatePicker from '@huggydigital/huggy-datepicker';
-import { format, parse } from 'date-format-parse';
 
-export default defineComponent({
+export default {
   components: {
     DatePicker,
   },
   data() {
     return {
-      inputProps: {
-        clearable: false,
-        editable: false,
-        placeholder: 'test placeholder',
-        inputAttr: {
-          name: 'test',
-          id: 'test',
-        },
-      },
+      value1: [this.getDate(), this.getDate()],
+      value2: null,
+      value3: null,
       shortcuts: [
         {
-          text: 'range',
+          text: 'Today',
+          type: 'TODAY',
+          selected: true,
           onClick() {
-            return [new Date(), new Date()];
+            const date = new Date();
+            // return a Date
+            return [date, date];
+          },
+        },
+        {
+          text: 'Yesterday',
+          type: 'YESTERDAY',
+          onClick() {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24);
+            return [date, date];
           },
         },
       ],
-      value: new Date(),
-      append: false,
-      rangeValue: [new Date(2019, 9, 4, 8, 30, 0), new Date(2019, 9, 4, 18, 30, 0)],
-      formatter: {
-        stringify(date: Date) {
-          return format(date, 'DD/MMM/YYYY');
-        },
-        parse(value: string) {
-          return parse(value, 'DD/MMM/YYYY');
-        },
-        getWeek(date: Date) {
-          return date.getDate();
-        },
-      },
     };
   },
   methods: {
-    handleChange() {
-      console.log('change');
+    getDate() {
+      let today = new Date();
+      const dd = String(today.getDate()).padStart(2, '0');
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const yyyy = today.getFullYear();
+
+      today = `${dd}/${mm}/${yyyy}`;
+      return today;
     },
-    handleUpdate(val: Date) {
-      this.value = val;
+    selectNextThreeDay(emit) {
+      const start = new Date();
+      const end = new Date();
+      end.setTime(end.getTime() + 3 * 24 * 3600 * 1000);
+      const date = [start, end];
+      emit(date);
+    },
+    notAfterToday(date) {
+      const today = new Date()
+      return date.getTime() > today.getTime()
     },
   },
-});
+};
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /* color: #2c3e50; */
-  margin-top: 60px;
-  margin-left: 60px;
+<style lang="scss" scoped>
+.box {
+  display: flex;
+  gap: 24px;
 }
 </style>

@@ -88,51 +88,50 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
     const isArray = Array.isArray(props.shortcuts);
     const shortcuts = isArray ? props.shortcuts : props.shortcuts.items;
 
-    if (typeof props.shortcuts === 'object' && !isArray) {
-      if (shortcuts.length > 0) {
-        customShortcutInserted.value = shortcuts[shortcuts.length - 1].custom;
+    if (shortcuts.length > 0) {
+      customShortcutInserted.value = shortcuts[shortcuts.length - 1].custom;
+    }
+
+    if (!customShortcutInserted.value) {
+      let shortcutSelected = false;
+
+      if (!props.isCustomSelected && Array.isArray(currentValue.value)) {
+        const formatedCurrentValue = currentValue.value.map((item) => {
+          return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
+        });
+        shortcuts.forEach((shortcut: any, index: any) => {
+          const formatedShortcutValue =
+            typeof shortcut.onClick() !== 'undefined'
+              ? shortcut.onClick().map((item: any) => {
+                  return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
+                })
+              : '';
+          shortcut.selected =
+            formatedCurrentValue.toString() === formatedShortcutValue.toString();
+
+          if (shortcut.selected) {
+            isCustom.value = false;
+            shortcutSelected = true;
+            currentShortcut.value = index;
+          }
+        });
       }
 
-      if (!customShortcutInserted.value) {
-        let shortcutSelected = false;
+      if (!shortcutSelected) {
+        currentShortcut.value = shortcuts.length;
+        isCustom.value = true;
+      }
 
-        if (!props.isCustomSelected && Array.isArray(currentValue.value)) {
-          const formatedCurrentValue = currentValue.value.map((item) => {
-            return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
-          });
-          shortcuts.forEach((shortcut: any, index: any) => {
-            const formatedShortcutValue =
-              typeof shortcut.onClick() !== 'undefined'
-                ? shortcut.onClick().map((item: any) => {
-                    return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
-                  })
-                : '';
-            shortcut.selected =
-              formatedCurrentValue.toString() === formatedShortcutValue.toString();
-
-            if (shortcut.selected) {
-              isCustom.value = false;
-              shortcutSelected = true;
-              currentShortcut.value = index;
-            }
-          });
-        }
-
+      if (!isArray && props.shortcuts?.customShortcut) {
+        shortcuts.push({
+          text: props.shortcuts.customShortcutText
+            ? props.shortcuts.customShortcutText
+            : 'Custom',
+          onClick() {},
+          custom: true,
+          selected: !shortcutSelected && currentValue.value !== null,
+        });
         customShortcutInserted.value = true;
-        if (!shortcutSelected) {
-          currentShortcut.value = shortcuts.length;
-          isCustom.value = true;
-        }
-        if (props.shortcuts?.customShortcut) {
-          shortcuts.push({
-            text: props.shortcuts.customShortcutText
-              ? props.shortcuts.customShortcutText
-              : 'Custom',
-            onClick() {},
-            custom: true,
-            selected: !shortcutSelected && currentValue.value !== null,
-          });
-        }
       }
     }
 

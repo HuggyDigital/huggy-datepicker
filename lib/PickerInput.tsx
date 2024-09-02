@@ -190,6 +190,7 @@ export const pickerInputBaseProps = keys<PickerInputBaseProps>()([
   'range',
   'multiple',
   'separator',
+  'simpleRangeText',
   'renderInputText',
   'onInputError',
   'onClear',
