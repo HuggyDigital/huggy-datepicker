@@ -25,6 +25,7 @@
     "cov": "jest --coverage",
     "docs:dev": "vite serve docs",
     "docs:build": "vite build docs",
+    "docs:deploy": "./node_modules/.bin/gh-pages -d docs/dist",
     "docs:preview": "vite preview docs --port 8080",
     "release": "bash build/git.sh && bash build/release.sh",
     "deploy": "bash build/deploy.sh"
