@@ -1,6 +1,6 @@
 import { parse, format, getWeek } from 'date-format-parse';
 import { DeepPartial } from 'utility-types';
-import { computed, toRef, ref, h, watchEffect, SetupContext, StyleValue } from 'vue';
+import { computed, toRef, ref, h, onMounted, watchEffect, SetupContext, StyleValue } from 'vue';
 import { provideGetWeek, provideLocale, providePrefixClass } from './context';
 import Popup from './Popup';
 import PickerInput, { PickerInputBaseProps, pickerInputBaseProps } from './PickerInput';
@@ -84,6 +84,18 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
   const isCustom = ref(true);
   const maxLimitReached = ref(false);
 
+  onMounted(() => {
+    currentValue.value = innerValue.value;
+    const selected = shortcutSelectedIndex();
+
+    if (selected !== -1) {
+      currentShortcut.value = selected;
+      const s = shortcutsComputed.value;
+      const isCustomSelected = selected !== s.length - 1 && s[selected].custom;
+      isCustom.value = isCustomSelected || props.isCustomSelected;
+    }
+  });
+
   const shortcutsComputed = computed(() => {
     const isArray = Array.isArray(props.shortcuts);
     const shortcuts = isArray ? props.shortcuts : props.shortcuts.items;
@@ -92,44 +104,15 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
       customShortcutInserted.value = shortcuts[shortcuts.length - 1].custom;
     }
 
-    if (!customShortcutInserted.value) {
-      let shortcutSelected = false;
+    if (!customShortcutInserted.value && !isArray && props.shortcuts?.customShortcut) {
+      shortcuts.push({
+        text: props.shortcuts.customShortcutText ? props.shortcuts.customShortcutText : 'Custom',
+        onClick() {},
+        custom: true,
+        selected: currentShortcut.value === null,
+      });
 
-      if (!props.isCustomSelected && Array.isArray(currentValue.value)) {
-        const formatedCurrentValue = currentValue.value.map((item) => {
-          return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
-        });
-        shortcuts.forEach((shortcut: any, index: any) => {
-          const formatedShortcutValue =
-            typeof shortcut.onClick() !== 'undefined'
-              ? shortcut.onClick().map((item: any) => {
-                  return `${item.getDate()}/${item.getMonth()}/${item.getFullYear()}`;
-                })
-              : '';
-          shortcut.selected = formatedCurrentValue.toString() === formatedShortcutValue.toString();
-
-          if (shortcut.selected) {
-            isCustom.value = false;
-            shortcutSelected = true;
-            currentShortcut.value = index;
-          }
-        });
-      }
-
-      if (!shortcutSelected) {
-        currentShortcut.value = shortcuts.length;
-        isCustom.value = true;
-      }
-
-      if (!isArray && props.shortcuts?.customShortcut) {
-        shortcuts.push({
-          text: props.shortcuts.customShortcutText ? props.shortcuts.customShortcutText : 'Custom',
-          onClick() {},
-          custom: true,
-          selected: !shortcutSelected && currentValue.value !== null,
-        });
-        customShortcutInserted.value = true;
-      }
+      customShortcutInserted.value = true;
     }
 
     return shortcuts;
@@ -174,22 +157,20 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
 
   const closePopup = (confirmed = false) => {
     currentValue.value = innerValue.value;
-    let shortcutsComputedIndex = shortcutSelectedIndex();
+    let selected = shortcutSelectedIndex();
 
-    if (confirmed)
-      shortcutsComputedIndex = shortcutsComputed.value.findIndex((v: any) => v.selected === true);
+    if (confirmed) {
+      selected = shortcutsComputed.value.findIndex((v: any) => v.selected === true);
+    }
 
-    if (shortcutsComputedIndex !== -1) {
-      currentShortcut.value = shortcutsComputedIndex;
-      if (
-        shortcutsComputedIndex !== shortcutsComputed.value.length - 1 ||
-        !props.shortcuts.customShortcut
-      )
-        isCustom.value = false;
-      else isCustom.value = true;
+    if (selected !== -1) {
+      currentShortcut.value = selected;
+      const s = shortcutsComputed.value;
+      isCustom.value = selected !== s.length - 1 && s[selected].custom;
     }
 
     if (!popupVisible.value) return;
+
     defaultOpen.value = false;
     props['onUpdate:open']?.(false);
     props.onClose?.();

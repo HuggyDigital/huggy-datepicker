@@ -19,23 +19,11 @@
     </section>
     <section>
       <p>header slot</p>
-      <date-picker v-model:value="value2" placeholder="Select date">
-        <template #header="{ emit }">
-          <button class="mx-btn mx-btn-text" @click="emit(new Date())">Today</button>
-        </template>
-      </date-picker>
+
     </section>
     <section>
       <p>footer slot</p>
-      <date-picker v-model:value="value3" range placeholder="Select date range">
-        <template #footer="{ emit }">
-          <div style="text-align: left">
-            <button class="mx-btn mx-btn-text" @click="selectNextThreeDay(emit)">
-              NextThreeDay
-            </button>
-          </div>
-        </template>
-      </date-picker>
+
     </section>
   </div>
 </template>
