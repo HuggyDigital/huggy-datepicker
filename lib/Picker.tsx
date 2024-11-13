@@ -134,6 +134,15 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
     defaultOpen.value = true;
     props['onUpdate:open']?.(true);
     props.onOpen?.();
+
+    currentValue.value = innerValue.value;
+    const selected = shortcutSelectedIndex();
+
+    if (selected !== -1) {
+      currentShortcut.value = selected;
+      const s = shortcutsComputed.value;
+      isCustom.value = selected !== s.length - 1 && s[selected].custom;
+    }
   };
 
   const shortcutSelectedIndex = () => {

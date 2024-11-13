@@ -19,11 +19,9 @@
     </section>
     <section>
       <p>header slot</p>
-
     </section>
     <section>
       <p>footer slot</p>
-
     </section>
   </div>
 </template>
