@@ -24,13 +24,19 @@ exports[`DatePicker prop: appendToBody = false 1`] = `
         <i
           class="mx-icon-clear"
         >
-          <!---->
+          <i
+            class="locke locke-close"
+            style="font-size: 18px;"
+          />
         </i>
         <i
           class="mx-icon-calendar"
         >
           
-          <!---->
+          <i
+            class="locke locke-calendar"
+            style="font-size: 18px;"
+          />
           
         </i>
       </div>
@@ -641,13 +647,19 @@ exports[`DatePicker prop: appendToBody = true 1`] = `
         <i
           class="mx-icon-clear"
         >
-          <!---->
+          <i
+            class="locke locke-close"
+            style="font-size: 18px;"
+          />
         </i>
         <i
           class="mx-icon-calendar"
         >
           
-          <!---->
+          <i
+            class="locke locke-calendar"
+            style="font-size: 18px;"
+          />
           
         </i>
       </div>
@@ -1254,13 +1266,19 @@ exports[`DatePicker prop: input props 1`] = `
     <i
       class="mx-icon-clear"
     >
-      <!---->
+      <i
+        class="locke locke-close"
+        style="font-size: 18px;"
+      />
     </i>
     <i
       class="mx-icon-calendar"
     >
       
-      <!---->
+      <i
+        class="locke locke-calendar"
+        style="font-size: 18px;"
+      />
       
     </i>
   </div>
@@ -1291,7 +1309,10 @@ exports[`DatePicker prop: input props 2`] = `
       class="mx-icon-calendar"
     >
       
-      <!---->
+      <i
+        class="locke locke-calendar"
+        style="font-size: 18px;"
+      />
       
     </i>
   </div>

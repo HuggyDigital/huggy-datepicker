@@ -4,7 +4,6 @@ import Picker, { PickerProps } from './Picker';
 import { DateTimeProps } from './datetime/DateTime';
 import { DateTimeRangeProps } from './datetime/DateTimeRange';
 import { pick } from './util/base';
-import { IconCalendar, IconCalendarLocke, IconTime } from './svg';
 import { keys, resolveProps } from './vueUtil';
 
 type DatePickerProps = Assign<DateTimeProps, PickerProps>;

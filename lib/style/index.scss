@@ -55,6 +55,7 @@
 
   &:hover {
     border-color: $input-hover-border-color;
+    background-color: $input-hover-background-color;
   }
   &:focus {
     border-color: $input-focus-border-color;

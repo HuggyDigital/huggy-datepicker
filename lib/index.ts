@@ -8,7 +8,6 @@ import TimeRange from './time/TimeRange';
 import DateTime from './datetime/DateTime';
 import DateTimeRange from './datetime/DateTimeRange';
 import { locale } from './locale';
-import '@huggydigital/hk-global/index.css';
 
 const api = {
   locale,

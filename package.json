@@ -1,6 +1,6 @@
 {
   "name": "@huggydigital/huggy-datepicker",
-  "version": "2.0.5",
+  "version": "2.0.7",
   "description": "A Datepicker Component For Vue 3",
   "main": "./index.js",
   "module": "./index.es.js",

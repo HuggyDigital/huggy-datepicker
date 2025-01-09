@@ -1,6 +1,6 @@
 import { ref, InputHTMLAttributes, computed, SetupContext } from 'vue';
 import { usePrefixClass } from './context';
-import { IconClose, IconCalendar, IconCalendarLocke } from './svg';
+import { IconCalendar, IconCalendarLocke } from './svg';
 import { ClassValue } from './type';
 import { isValidDate, isValidDates, isValidRangeDate } from './util/date';
 import { defineVueComponent, keys, withDefault } from './vueUtil';
