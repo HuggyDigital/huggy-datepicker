@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 import DatePicker from '@huggydigital/huggy-datepicker';
 import '../lib/style/index.scss';
 import '../lib/locale/en';
+import '@huggydigital/hk-global/index.css';
 
 import App from './components/App';
 import './index.scss';
