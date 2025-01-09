@@ -65,6 +65,8 @@
     ]
   },
   "peerDependencies": {
+    "@huggydigital/hk-global": "1.x",
+    "@huggydigital/hk-icons": "1.x",
     "vue": "^3.4.21"
   },
   "dependencies": {
@@ -77,6 +79,8 @@
     "@babel/preset-typescript": "^7.16.0",
     "@commitlint/cli": "^15.0.0",
     "@commitlint/config-conventional": "^15.0.0",
+    "@huggydigital/hk-global": "1.x",
+    "@huggydigital/hk-icons": "1.x",
     "@rollup/plugin-node-resolve": "^13.0.6",
     "@types/jest": "^27.0.3",
     "@types/markdown-it": "^14.1.2",

@@ -164,7 +164,7 @@ function PickerInput(originalProps: PickerInputProps, { slots }: SetupContext) {
         {slots.input?.(inputProps) || <input {...inputProps} />}
         {showClearIcon ? (
           <i class={`${prefixClass}-icon-clear`} onClick={handleClear}>
-            {slots['icon-clear']?.() || <IconClose />}
+            {slots['icon-clear']?.() || <i class="locke locke-close" style="font-size: 18px" />}
           </i>
         ) : null}
         <i class={`${prefixClass}-icon-calendar`}>

@@ -1,52 +1,53 @@
 $namespace: 'mx' !default;
 
-$default-color: #73879c !default;
-$primary-color: #321BDE !default;
+$default-color: var(--neutral-130, #73879c) !default;
+$primary-color: var(--violet-60, #321bde) !default;
 
-$light-gray: #E5E5E5;
+$light-gray: var(--neutral-80, #e5e5e5);
 
 $today-color: $primary-color !default;
 
 $popup-z-index: 2001 !default;
 
-$input-border-color: #ccc !default;
-$input-color: #555 !default;
-$input-hover-border-color: #321BDE !default;
+$input-border-color: var(--neutral-40, #ccc) !default;
+$input-color: var(--neutral-140, #555) !default;
+$input-hover-border-color: var(--violet-40, #321bde) !default;
+$input-focus-border-color: var(--violet-30, #321bde) !default;
 
-$disabled-color: #ccc !default;
-$disabled-background-color: #f3f3f3 !default;
+$disabled-color: var(--neutral-100, #ccc) !default;
+$disabled-background-color: var(--neutral-20, #f3f3f3) !default;
 
-$border-color: #E5E5E5 !default;
+$border-color: #e5e5e5 !default;
 $gray-500-light-theme: #cccccc !default;
 $gray-800-light-theme: #595959 !default;
 
-$inrange-color: #EFEDFC !default;
+$inrange-color: var(--violet-10, #efedfc) !default;
 
 $calendar-active-color: #fff !default;
 $calendar-active-background-color: $primary-color !default;
 
 $calendar-hover-color: #fff !default;
-$calendar-hover-background-color: mix(#fff, $primary-color, 50%) !default;
+$calendar-hover-background-color: var(--violet-10, mix(#fff, #321bde, 50%)) !default;
 
-$calendar-in-range-color: #3C2D6D !default;
+$calendar-in-range-color: var(--violet-130, #3c2d6d) !default;
 $calendar-in-range-background-color: $inrange-color !default;
 
 $time-active-color: $primary-color !default;
 $time-active-background-color: $inrange-color !default;
 
-$time-hover-color: #3C2D6D !default;
+$time-hover-color: #3c2d6d !default;
 $time-hover-background-color: $inrange-color !default;
 
-$input-border-radius: 4px !default;
+$input-border-radius: 6px !default;
 $sidebar-margin-left: 180px !default;
 
 $transition-btn: 0.2s;
 
-$persian-blue-300: #5946E4;
-$persian-blue-600: #321BDE;
-$persian-blue-700:  #2715B0;
+$persian-blue-300: #5946e4;
+$persian-blue-600: #321bde;
+$persian-blue-700: #2715b0;
 
-$mine-shaft-10: #F8F8F8;
-$mine-shaft-30: #E1E1E1;
+$mine-shaft-10: #f8f8f8;
+$mine-shaft-30: #e1e1e1;
 $mine-shaft-400: #505050;
 $mine-shaft-700: #262626;

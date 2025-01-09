@@ -1183,6 +1183,18 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@huggydigital/hk-global@1.x":
+  version "1.0.6"
+  resolved "https://npm.pkg.github.com/download/@huggydigital/hk-global/1.0.6/77e9005a6cd491660d3373b2d3362a9071ea4996#77e9005a6cd491660d3373b2d3362a9071ea4996"
+  integrity sha512-KZbOKPN0U+4tKUtKUJNbvzyUpzibsGa+491lKQO640DaUE1MjFEChn7kzzfqRbVz1BptOkx2FAFsvTKszbgeEA==
+
+"@huggydigital/hk-icons@1.x":
+  version "1.0.6"
+  resolved "https://npm.pkg.github.com/download/@huggydigital/hk-icons/1.0.6/e72a4e7258b84abd9cec38a86b6870f99d158943#e72a4e7258b84abd9cec38a86b6870f99d158943"
+  integrity sha512-S2xuwbUiXcVcUj2089Pago3CqED1WEOcTO2e1TM55vNVflZlhDf8SUsojlRcDIoEQV7nZg6eIYAZlVG2HdArWQ==
+  dependencies:
+    vue "^3.4.21"
+
 "@humanwhocodes/config-array@^0.5.0":
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.5.0.tgz#1407967d4c6eecd7388f83acf1eaf4d0c6e58ef9"

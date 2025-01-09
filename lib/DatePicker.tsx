@@ -57,11 +57,11 @@ function DatePicker(originalProps: DatePickerComponentProps, { slots }: SetupCon
       {{
         ['icon-calendar']: () =>
           type === 'time' ? (
-            <IconTime />
+            <i class="locke locke-clock" style="font-size: 18px" />
           ) : props.calendarLockeIcon ? (
-            <IconCalendarLocke />
+            <i class="locke locke-calendar" style="font-size: 18px" />
           ) : (
-            <IconCalendar />
+            <i class="locke locke-calendar" style="font-size: 18px" />
           ),
         ...slots,
       }}
