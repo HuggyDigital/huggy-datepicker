@@ -91,7 +91,8 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
     if (selected !== -1) {
       currentShortcut.value = selected;
       const s = shortcutsComputed.value;
-      const isCustomSelected = selected !== s.length - 1 && s[selected].custom;
+      const isCustomSelected = selected === s.length - 1 && s[selected].custom;
+
       isCustom.value = isCustomSelected || props.isCustomSelected;
     }
   });
@@ -141,7 +142,7 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
     if (selected !== -1) {
       currentShortcut.value = selected;
       const s = shortcutsComputed.value;
-      isCustom.value = selected !== s.length - 1 && s[selected].custom;
+      isCustom.value = selected === s.length - 1 && s[selected].custom;
     }
   };
 
@@ -164,19 +165,9 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
     return -1;
   };
 
-  const closePopup = (confirmed = false) => {
+  const closePopup = () => {
     currentValue.value = innerValue.value;
-    let selected = shortcutSelectedIndex();
-
-    if (confirmed) {
-      selected = shortcutsComputed.value.findIndex((v: any) => v.selected === true);
-    }
-
-    if (selected !== -1) {
-      currentShortcut.value = selected;
-      const s = shortcutsComputed.value;
-      isCustom.value = selected !== s.length - 1 && s[selected].custom;
-    }
+    innerCurrentValue = null;
 
     if (!popupVisible.value) return;
 
@@ -244,6 +235,8 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
     }
   };
 
+  let innerCurrentValue: Date | null = null;
+
   const innerValue = computed(() => {
     const value = props.value;
     if (props.range) {
@@ -260,7 +253,7 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
     props['onUpdate:value']?.(value);
     props.onChange?.(value, type);
     if (close) {
-      closePopup(true);
+      closePopup();
     }
     return value;
   };
@@ -328,6 +321,7 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
       }
       const date = item.onClick();
       if (date) {
+        innerCurrentValue = date;
         if (props.confirm) {
           currentValue.value = date;
         } else {
@@ -504,7 +498,7 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
       >
         <PickerInput
           {...pick(props, pickerInputBaseProps)}
-          value={innerValue.value}
+          value={innerCurrentValue || innerValue.value}
           formatDate={formatDate}
           parseDate={parseDate}
           disabledDate={disabledDateTime}

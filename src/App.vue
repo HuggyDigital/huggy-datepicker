@@ -38,27 +38,27 @@ export default {
       value1: [this.getDate(), this.getDate()],
       value2: null,
       value3: null,
-      shortcuts: [
-        {
-          text: 'Today',
-          type: 'TODAY',
-          selected: true,
-          onClick() {
-            const date = new Date();
-            // return a Date
-            return [date, date];
+      shortcuts: {
+        customShortcut: true,
+        items: [
+          {
+            text: 'Yesterday',
+            onClick() {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              return [date, date];
+            },
           },
-        },
-        {
-          text: 'Yesterday',
-          type: 'YESTERDAY',
-          onClick() {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24);
-            return [date, date];
+          {
+            text: 'Tomorrow',
+            onClick() {
+              const date = new Date();
+              date.setTime(date.getTime() + 3600 * 1000 * 24);
+              return [date, date];
+            },
           },
-        },
-      ],
+        ],
+      },
     };
   },
   methods: {
@@ -79,8 +79,9 @@ export default {
       emit(date);
     },
     notAfterToday(date) {
-      const today = new Date()
-      return date.getTime() > today.getTime()
+      const today = new Date();
+      today.setTime(today.getTime() + 1 * 24 * 3600 * 1000);
+      return date.getTime() > today.getTime();
     },
   },
 };
