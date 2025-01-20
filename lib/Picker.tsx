@@ -235,7 +235,7 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
     }
   };
 
-  let innerCurrentValue: Date | null = null;
+  let innerCurrentValue: Date | Date[] | null = null;
 
   const innerValue = computed(() => {
     const value = props.value;
@@ -273,6 +273,7 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
   });
 
   const handleSelect = (val: Date | Date[], type: string) => {
+    innerCurrentValue = val;
     if (props.confirm) {
       currentValue.value = val;
     } else {
