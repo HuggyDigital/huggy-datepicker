@@ -130,15 +130,14 @@
 }
 
 .#{$namespace}-datepicker-sidebar {
+  border-right: 1px solid #E5E5E5;
   box-sizing: border-box;
-  margin: 16px 0;
-  padding: 0 16px;
+  padding: 16px;
   overflow: auto;
   width: 100%;
 }
 
 .#{$namespace}-datepicker-body {
-  border-left: 1px solid $light-gray;
   position: relative;
   user-select: none;
   &.wrapper-column {
@@ -506,7 +505,7 @@
         width: 28px;
         height: 28px;
         border-radius: 50%;
-        margin-left: 2px;
+        margin-left: 1px;
         position: absolute;
         opacity: 0.5;
         background-color: #321bde;
@@ -515,7 +514,7 @@
       &:not(.not-current-month) + .active :before {
         content: '';
         display: inline-block;
-        width: 32px;
+        width: 28px;
         height: 28px;
         margin-right: 60px;
         z-index: -3;
@@ -536,7 +535,7 @@
         width: 28px;
         height: 28px;
         border-radius: 50%;
-        margin-left: 2px;
+        margin-left: 1px;
         z-index: -2;
         position: absolute;
         background: #321bde;
@@ -548,9 +547,10 @@
       + :hover:not(.not-current-month):not(.start-month) :before {
         content: '';
         display: inline-block;
-        width: 32px;
+        width: 28px;
         height: 28px;
-        margin-right: 60px;
+        margin-right: 58px;
+        margin-left: 1px;
         z-index: -3;
         position: absolute;
         background: $inrange-color;
