@@ -35,6 +35,7 @@ const booleanKeys = keys<PickByValueExact<Required<DatePickerComponentProps>, bo
   'columnCalendar',
   'simpleRangeText',
   'calendarLockeIcon',
+  'showIcon',
 ]);
 
 const formatMap = {
@@ -55,13 +56,15 @@ function DatePicker(originalProps: DatePickerComponentProps, { slots }: SetupCon
     <Picker {...pick(props, Picker.props)}>
       {{
         ['icon-calendar']: () =>
-          type === 'time' ? (
-            <i class="locke locke-clock" style="font-size: 18px" />
-          ) : props.calendarLockeIcon ? (
-            <i class="locke locke-calendar" style="font-size: 18px" />
-          ) : (
-            <i class="locke locke-calendar" style="font-size: 18px" />
-          ),
+          props.showIcon !== false ? (
+            type === 'time' ? (
+              <i class="locke locke-clock" style="font-size: 18px" />
+            ) : props.calendarLockeIcon ? (
+              <i class="locke locke-calendar" style="font-size: 18px" />
+            ) : (
+              <i class="locke locke-calendar" style="font-size: 18px" />
+            )
+          ) : null,
         ...slots,
       }}
     </Picker>

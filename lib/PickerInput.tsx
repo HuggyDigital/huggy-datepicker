@@ -18,6 +18,7 @@ export interface PickerInputBaseProps {
   separator?: string;
   simpleRangeText?: boolean;
   calendarLockeIcon?: boolean;
+  showIcon?: boolean;
   renderInputText?: (v: Date | Date[]) => string;
   onInputError?: (text: string) => void;
   onClear?: () => void;
@@ -43,6 +44,7 @@ function PickerInput(originalProps: PickerInputProps, { slots }: SetupContext) {
     multiple: false,
     simpleRangeText: false,
     calendarLockeIcon: false,
+    showIcon: true,
   });
   const prefixClass = usePrefixClass();
 
@@ -167,14 +169,16 @@ function PickerInput(originalProps: PickerInputProps, { slots }: SetupContext) {
             {slots['icon-clear']?.() || <i class="locke locke-close" style="font-size: 18px" />}
           </i>
         ) : null}
-        <i class={`${prefixClass}-icon-calendar`}>
-          {/* default icon config in DatePicker */}
-          {props.calendarLockeIcon ? (
-            <IconCalendarLocke />
-          ) : (
-            slots['icon-calendar']?.() || <IconCalendar />
-          )}
-        </i>
+        {props.showIcon ? (
+          <i class={`${prefixClass}-icon-calendar`}>
+            {/* default icon config in DatePicker */}
+            {props.calendarLockeIcon ? (
+              <IconCalendarLocke />
+            ) : (
+              slots['icon-calendar']?.() || <IconCalendar />
+            )}
+          </i>
+        ) : null}
       </div>
     );
   };
