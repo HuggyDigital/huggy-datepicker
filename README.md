@@ -139,6 +139,7 @@ You can also override some of the default locale by `lang`.
 | default-panel                  | default panel of the picker                                           | year\|month                                     | -              |
 | popup-style                    | popup style                                                           | `object`                                        | —              |
 | popup-class                    | popup classes                                                         |                                                 | —              |
+| show-icon                      | if false, doesn't display any locke icon                              | `boolean`                                       | true           |
 | shortcuts                      | set shortcuts to select                                               | `Array<{text, onClick}>` \| `{customShorcut: boolean, customShorcutText: string, items: Array<{text, onClick}>}` | -              |
 | shortcuts-calendar-always-open | if false, datepicker is opened only when custom shortcut is selected  | `boolean`                                       | true           |
 | is-custom-selected             | if true, show preset date as a costum value                           | `boolean`                                       | false          |

@@ -15,6 +15,7 @@
         confirm
         cancel
         placeholder="Select date"
+        :show-icon="true"
       ></date-picker>
     </section>
     <section>
