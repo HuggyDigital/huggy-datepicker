@@ -18,7 +18,7 @@ export interface PickerInputBaseProps {
   separator?: string;
   simpleRangeText?: boolean;
   calendarLockeIcon?: boolean;
-  showIcon: boolean;
+  showIcon?: boolean;
   renderInputText?: (v: Date | Date[]) => string;
   onInputError?: (text: string) => void;
   onClear?: () => void;
