@@ -195,8 +195,6 @@ function TimePanel(originalProps: TimePanelProps) {
         )}
         <div class={`${prefixClass}-time-labels`}>
           {props.timeLabels &&
-            !props.timePickerOptions &&
-            !props.showTimeHeader &&
             (() => {
               const timeLabels = props.timeLabels;
               const columns = getColumnOptions(innerValue.value, props);
