@@ -4,6 +4,10 @@
 @import './scrollbar.scss';
 @import './animation.scss';
 
+* {
+  font-family: "Roboto", sans-serif;
+}
+
 .#{$namespace}-datepicker {
   position: relative;
   display: inline-block;
@@ -104,7 +108,6 @@
   background-color: #fff;
   border: 1px solid $gray-500-light-theme;
   border-radius: 12px;
-  min-width: 222px;
   transition: all 90ms ease-in;
   transition-delay: 60ms;
 }
@@ -631,13 +634,8 @@
 
 .#{$namespace}-time {
   flex: 1;
-  width: 224px;
   background: #fff;
-  margin: 16px 0;
-  padding: 0 16px;
-  & + & {
-    border-left: 1px solid $border-color;
-  }
+  border-radius: 12px;
 }
 
 .#{$namespace}-date-time {
@@ -682,6 +680,24 @@
   overflow: hidden;
 }
 
+.#{$namespace}-time-labels {
+  display: flex;
+
+  label {
+    width: 86px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+    border-right: 1px solid $border-color;
+    padding: 12px 0 4px 0;
+    color: $font-color;
+
+    &:last-child {
+      border-right: 0;
+    }
+  }
+}
+
 .#{$namespace}-time-column {
   flex: 1;
   position: relative;
@@ -692,22 +708,27 @@
     border-left: 0;
   }
   .#{$namespace}-time-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin: 0;
     padding: 0;
     list-style: none;
     &::after {
       content: '';
       display: block;
-      height: 32 * 6px;
     }
   }
   .#{$namespace}-time-item {
+    color: $font-color;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 14px;
     height: 28px;
     line-height: 28px;
     border-radius: 8px;
     margin: 4px;
+    width: 40px;
+
     &:hover {
       color: $time-hover-color;
       background-color: $time-hover-background-color;
