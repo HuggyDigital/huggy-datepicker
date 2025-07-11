@@ -14,6 +14,13 @@ export interface Locale {
   monthBeforeYear: boolean;
 }
 
+export interface TimeLabels {
+  hour?: string;
+  minute?: string;
+  second?: string;
+  ampm?: string;
+}
+
 export type PlainObject = Record<string, any>;
 
 export type ClassValue = string | Record<string, boolean> | Array<ClassValue>;
