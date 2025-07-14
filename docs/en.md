@@ -56,6 +56,23 @@ You can also set `showHour` `showMinute` `showSecond` to override the default va
 './demo/HideSeconds.vue'
 ```
 
+### Custom labels for each time column
+Displays a custom label above each time column (hour, minute, second or ampm) in the time picker.
+
+The object should follow the format:
+```ts
+{
+  hour?: string;
+  minute?: string;
+  second?: string;
+  ampm?: string;
+}
+```
+
+```demo
+'./demo/TimeLabel.vue'
+```
+
 ### Interval and custom time options
 
 Set stepped time options by `hourStep` `minuteStep` `secondStep`

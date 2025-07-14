@@ -9,6 +9,11 @@ exports[`TimeRange render: correct classes of the columns 1`] = `
   >
     <!---->
     <div
+      class="mx-time-labels"
+    >
+      <!---->
+    </div>
+    <div
       class="mx-time-content"
     >
       <div
@@ -164,6 +169,11 @@ exports[`TimeRange render: correct classes of the columns 1`] = `
     class="mx-time"
   >
     <!---->
+    <div
+      class="mx-time-labels"
+    >
+      <!---->
+    </div>
     <div
       class="mx-time-content"
     >

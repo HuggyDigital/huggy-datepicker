@@ -5,6 +5,7 @@ import { getValidDate, startOfDay } from '../util/date';
 import { getScrollParent } from '../util/dom';
 import { Columns } from './Columns';
 import { FixedList } from './FixedList';
+import { TimeLabels } from '../type';
 import { getColumnOptions, getFixedOptions, TimePickerOptions } from './getOptions';
 import { defineVueComponent, keys, withDefault } from '../vueUtil';
 import { JSX } from 'vue/jsx-runtime';
@@ -28,6 +29,7 @@ export interface TimePanelProps {
   showSecond?: boolean;
   use12h?: boolean;
   scrollDuration?: number;
+  timeLabels?: TimeLabels;
   onClickTitle?: (payload: MouseEvent) => void;
   ['onUpdate:value']?: (value: Date, type: string, index?: number) => void;
 }
@@ -191,6 +193,16 @@ function TimePanel(originalProps: TimePanelProps) {
             </button>
           </div>
         )}
+        <div class={`${prefixClass}-time-labels`}>
+          {props.timeLabels &&
+            (() => {
+              const timeLabels = props.timeLabels;
+              const columns = getColumnOptions(innerValue.value, props);
+              return columns.map((option, index) => (
+                <label key={index}>{timeLabels[option.type]}</label>
+              ));
+            })()}
+        </div>
         <div class={`${prefixClass}-time-content`}>{content}</div>
       </div>
     );
@@ -216,6 +228,7 @@ export const timePanelProps = keys<TimePanelProps>()([
   'showSecond',
   'use12h',
   'scrollDuration',
+  'timeLabels',
   'onClickTitle',
   'onUpdate:value',
 ]);

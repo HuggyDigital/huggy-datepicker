@@ -5,7 +5,15 @@ import { provideGetWeek, provideLocale, providePrefixClass } from './context';
 import Popup from './Popup';
 import PickerInput, { PickerInputBaseProps, pickerInputBaseProps } from './PickerInput';
 import { isPlainObject, pick } from './util/base';
-import { ClassValue, DateValue, Formatter, Locale, PickerType, Valuetype } from './type';
+import {
+  ClassValue,
+  DateValue,
+  Formatter,
+  Locale,
+  PickerType,
+  TimeLabels,
+  Valuetype,
+} from './type';
 import { isValidDate } from './util/date';
 import { defineVueComponent, keys, withDefault } from './vueUtil';
 import { IconWarning } from './svg';
@@ -39,6 +47,7 @@ export interface PickerBaseProps {
   columnCalendar?: boolean;
   maxDaysRange?: any;
   titleFormat?: string;
+  timeLabels?: TimeLabels;
   disabledDate?: (v: Date) => boolean;
   disabledTime?: (v: Date) => boolean;
   onClose?: () => void;
@@ -559,6 +568,7 @@ const pickerbaseProps = keys<PickerBaseProps>()([
   'columnCalendar',
   'maxDaysRange',
   'titleFormat',
+  'timeLabels',
   'onOpen',
   'onClose',
   'onConfirm',
