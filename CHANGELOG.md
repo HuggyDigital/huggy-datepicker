@@ -1,5 +1,5 @@
 ## [2.0.12](https://github.com/huggydigital/huggy-datepicker/compare/v1.2.0...v2.0.12) (2025-05-13)
-
+## [2.0.13](https://github.com/huggydigital/huggy-datepicker/compare/v1.2.0...v2.0.12) (2025-06-14)
 
 ### Bug Fixes
 

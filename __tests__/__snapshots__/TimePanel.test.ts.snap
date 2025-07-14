@@ -6,6 +6,11 @@ exports[`TimePanel render: correct 12hours in the fixed time list 1`] = `
 >
   <!---->
   <div
+    class="mx-time-labels"
+  >
+    <!---->
+  </div>
+  <div
     class="mx-time-content"
   >
     <div
@@ -143,6 +148,11 @@ exports[`TimePanel render: correct classes of the columns 1`] = `
   class="mx-time"
 >
   <!---->
+  <div
+    class="mx-time-labels"
+  >
+    <!---->
+  </div>
   <div
     class="mx-time-content"
   >
@@ -1074,6 +1084,11 @@ exports[`TimePanel render: correct classes of the fixed time list 1`] = `
 >
   <!---->
   <div
+    class="mx-time-labels"
+  >
+    <!---->
+  </div>
+  <div
     class="mx-time-content"
   >
     <div
@@ -1211,6 +1226,11 @@ exports[`TimePanel render: correct columns by format 1`] = `
   class="mx-time"
 >
   <!---->
+  <div
+    class="mx-time-labels"
+  >
+    <!---->
+  </div>
   <div
     class="mx-time-content"
   >
