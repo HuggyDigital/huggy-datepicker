@@ -16,13 +16,23 @@ import {
 } from './type';
 import { isValidDate } from './util/date';
 import { defineVueComponent, keys, withDefault } from './vueUtil';
-import { IconWarning } from './svg';
 import TimeRange from './time/TimeRange';
 import DateTimeRange from './datetime/DateTimeRange';
 import CalendarRange from './calendar/CalendarRange';
 import TimePanel from './time/TimePanel';
 import DateTime from './datetime/DateTime';
 import Calendar from './calendar/Calendar';
+
+export interface RangeValidationConfig {
+  days?: {
+    limit: number;
+    text: string;
+  };
+  custom?: {
+    validate: (range: [Date, Date]) => boolean;
+    text?: string;
+  };
+}
 
 export interface PickerBaseProps {
   type?: PickerType;
@@ -45,8 +55,10 @@ export interface PickerBaseProps {
   isCustomSelected?: boolean;
   shortcutsCalendarAlwaysOpen?: boolean;
   columnCalendar?: boolean;
-  maxDaysRange?: any;
-  titleFormat?: string;
+  maxDaysRange?:
+    | RangeValidationConfig
+    | { days: number; text: string }
+    | ((range: [Date, Date | null]) => boolean);
   timeLabels?: TimeLabels;
   disabledDate?: (v: Date) => boolean;
   disabledTime?: (v: Date) => boolean;
@@ -92,6 +104,7 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
   const currentShortcut = ref(null);
   const isCustom = ref(true);
   const maxLimitReached = ref(false);
+  const currentWarningTexts = ref<string[]>([]);
 
   onMounted(() => {
     currentValue.value = innerValue.value;
@@ -281,7 +294,84 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
     }
   });
 
+  function normalizeRangeConfig(config: PickerProps['maxDaysRange']): RangeValidationConfig | null {
+    if (!config) return null;
+
+    if (
+      isPlainObject(config) &&
+      ('days' in config || 'custom' in config) &&
+      typeof config.days !== 'number'
+    ) {
+      return config as RangeValidationConfig;
+    }
+
+    if (typeof config === 'function') {
+      return { custom: { validate: config } };
+    }
+
+    if (isPlainObject(config) && typeof config.days === 'number' && 'text' in config) {
+      return {
+        days: {
+          limit: config.days,
+          text: config.text,
+        },
+      };
+    }
+
+    return null;
+  }
+
+  const checkRangeValidation = (
+    startDate: Date,
+    endDate: Date | null
+  ): { isValid: boolean; errorTexts: string[] } => {
+    if (!endDate) return { isValid: true, errorTexts: [] };
+
+    const normalizedConfig = normalizeRangeConfig(props.maxDaysRange);
+    if (!normalizedConfig) return { isValid: true, errorTexts: [] };
+
+    const errors: string[] = [];
+
+    if (normalizedConfig.days) {
+      const { limit, text } = normalizedConfig.days;
+      const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+      if (diffDays > limit) {
+        errors.push(text);
+      }
+    }
+
+    if (normalizedConfig.custom) {
+      const { validate, text } = normalizedConfig.custom;
+      if (!validate([startDate, endDate])) {
+        if (text) {
+          errors.push(text);
+        }
+      }
+    }
+
+    return { isValid: errors.length === 0, errorTexts: errors };
+  };
+
+  const handleSelectMaxLimit = (range: [Date, Date]) => {
+    if (!Array.isArray(range) || !range[0] || !range[1]) {
+      maxLimitReached.value = false;
+      currentWarningTexts.value = [];
+      return;
+    }
+
+    const [start, end] = range;
+    const { isValid, errorTexts } = checkRangeValidation(start, end);
+
+    maxLimitReached.value = !isValid;
+    currentWarningTexts.value = errorTexts;
+  };
+
   const handleSelect = (val: Date | Date[], type: string) => {
+    if (props.range && Array.isArray(val)) {
+      handleSelectMaxLimit(val as [Date, Date]);
+    }
+
     innerCurrentValue = val;
     if (props.confirm) {
       currentValue.value = val;
@@ -298,8 +388,23 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
     currentValue.value = val2;
   };
 
-  const handleSelectMaxLimit = (days: number) => {
-    maxLimitReached.value = props.maxDaysRange ? days > props.maxDaysRange.days : false;
+  const disabledCalendarDate = (date: Date): boolean => {
+    if (props.disabledDate(date)) return true;
+
+    if (!props.range) return false;
+
+    if (Array.isArray(currentValue.value)) {
+      const startDate = currentValue.value[0];
+      const endDate = currentValue.value[1];
+
+      if (startDate && !endDate) {
+        if (!checkRangeValidation(startDate, date).isValid) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   };
 
   const handleConfirm = () => {
@@ -387,13 +492,33 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
     };
 
     const Component = selectComponent(props.type);
-    const content = <Component {...pick({ ...props, ...slotProps }, Component.props)} />;
+
+    const componentProps = {
+      ...props,
+      ...slotProps,
+      disabledDate: disabledCalendarDate,
+    };
+
+    const content = <Component {...pick(componentProps, Component.props)} />;
+
+    let warningContent = null;
+
+    if (maxLimitReached.value && currentWarningTexts.value.length > 0 && isCustom.value) {
+      warningContent = currentWarningTexts.value.map((errorText, index) => (
+        <div key={index} class={`${prefixClass}-footer-warning`}>
+          <i style="font-size: 16px;" class="locke locke-error_outline"></i>
+          <span>{errorText}</span>
+        </div>
+      ));
+    }
 
     const contentHtml = (
       <div class={`${prefixClass}-datepicker-body${props.columnCalendar ? ' wrapper-column' : ''}`}>
         {h(content, pick({ ...props, ...slotProps }, content.props))}
+        {warningContent}
       </div>
     );
+
     if (!props.shortcutsCalendarAlwaysOpen && isCustom.value) {
       return <div class={`${prefixClass}-expand`}>{contentHtml}</div>;
     }
@@ -435,7 +560,6 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
       value: currentValue.value,
       ['onUpdate:value']: handleSelect,
       selectone: handleSelectOneDate,
-      selectRange: handleSelectMaxLimit,
       emit: emitValue,
     };
 
@@ -459,19 +583,12 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
             ) : (
               <div />
             )}
-            {props.maxDaysRange && isCustom.value && maxLimitReached.value ? (
-              <div class={`${prefixClass}-footer-warning`}>
-                <span class="icon">
-                  <IconWarning />
-                </span>
-                <span>{props.maxDaysRange.text}</span>
-              </div>
-            ) : null}
             {confirm && (
               <button
                 type="button"
                 class={`${prefixClass}-btn ${prefixClass}-datepicker-btn-confirm`}
                 onClick={handleConfirm}
+                disabled={maxLimitReached.value}
               >
                 {props.confirmText}
               </button>
@@ -567,7 +684,6 @@ const pickerbaseProps = keys<PickerBaseProps>()([
   'shortcutsCalendarAlwaysOpen',
   'columnCalendar',
   'maxDaysRange',
-  'titleFormat',
   'timeLabels',
   'onOpen',
   'onClose',
