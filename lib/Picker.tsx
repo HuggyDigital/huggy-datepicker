@@ -55,6 +55,7 @@ export interface PickerBaseProps {
   isCustomSelected?: boolean;
   shortcutsCalendarAlwaysOpen?: boolean;
   columnCalendar?: boolean;
+  titleFormat?: string;
   maxDaysRange?:
     | RangeValidationConfig
     | { days: number; text: string }
@@ -683,6 +684,7 @@ const pickerbaseProps = keys<PickerBaseProps>()([
   'isCustomSelected',
   'shortcutsCalendarAlwaysOpen',
   'columnCalendar',
+  'titleFormat',
   'maxDaysRange',
   'timeLabels',
   'onOpen',
