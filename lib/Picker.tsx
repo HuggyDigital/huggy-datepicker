@@ -24,14 +24,9 @@ import DateTime from './datetime/DateTime';
 import Calendar from './calendar/Calendar';
 
 export interface RangeValidationConfig {
-  days?: {
-    limit: number;
-    text: string;
-  };
-  custom?: {
-    validate: (range: [Date, Date]) => boolean;
-    text?: string;
-  };
+  days?: number;
+  validate?: (range: [Date, Date]) => boolean;
+  text: string;
 }
 
 export interface PickerBaseProps {
@@ -56,10 +51,7 @@ export interface PickerBaseProps {
   shortcutsCalendarAlwaysOpen?: boolean;
   columnCalendar?: boolean;
   titleFormat?: string;
-  maxDaysRange?:
-    | RangeValidationConfig
-    | { days: number; text: string }
-    | ((range: [Date, Date | null]) => boolean);
+  maxDaysRange?: RangeValidationConfig;
   timeLabels?: TimeLabels;
   disabledDate?: (v: Date) => boolean;
   disabledTime?: (v: Date) => boolean;
@@ -295,63 +287,37 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
     }
   });
 
-  function normalizeRangeConfig(config: PickerProps['maxDaysRange']): RangeValidationConfig | null {
-    if (!config) return null;
-
-    if (
-      isPlainObject(config) &&
-      ('days' in config || 'custom' in config) &&
-      typeof config.days !== 'number'
-    ) {
-      return config as RangeValidationConfig;
-    }
-
-    if (typeof config === 'function') {
-      return { custom: { validate: config } };
-    }
-
-    if (isPlainObject(config) && typeof config.days === 'number' && 'text' in config) {
-      return {
-        days: {
-          limit: config.days,
-          text: config.text,
-        },
-      };
-    }
-
-    return null;
-  }
-
   const checkRangeValidation = (
     startDate: Date,
     endDate: Date | null
   ): { isValid: boolean; errorTexts: string[] } => {
     if (!endDate) return { isValid: true, errorTexts: [] };
+    if (!props.maxDaysRange) return { isValid: true, errorTexts: [] };
 
-    const normalizedConfig = normalizeRangeConfig(props.maxDaysRange);
-    if (!normalizedConfig) return { isValid: true, errorTexts: [] };
-
-    const errors: string[] = [];
-
-    if (normalizedConfig.days) {
-      const { limit, text } = normalizedConfig.days;
-      const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-      if (diffDays > limit) {
-        errors.push(text);
-      }
+    let rules = [];
+    if (Array.isArray(props.maxDaysRange)) {
+      rules = props.maxDaysRange;
+    } else {
+      rules = [props.maxDaysRange];
     }
 
-    if (normalizedConfig.custom) {
-      const { validate, text } = normalizedConfig.custom;
-      if (!validate([startDate, endDate])) {
-        if (text) {
-          errors.push(text);
+    const errors: string[] = [];
+    for (const rule of rules) {
+      if (typeof rule.days === 'number') {
+        const diffDays = Math.ceil((endDate.getTime() - startDate.getTime()) / 86400000) + 1;
+        if (diffDays > rule.days) {
+          errors.push(rule.text);
+        }
+      }
+
+      if (typeof rule.validate === 'function') {
+        if (!rule.validate([startDate, endDate])) {
+          errors.push(rule.text);
         }
       }
     }
 
-    return { isValid: errors.length === 0, errorTexts: errors };
+    return { isValid: errors.length === 0, errorTexts: errors.filter(Boolean) };
   };
 
   const handleSelectMaxLimit = (range: [Date, Date]) => {
