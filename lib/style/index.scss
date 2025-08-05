@@ -264,6 +264,12 @@
       background-color: $persian-blue-300;
     }
 
+    &:disabled {
+      background-color: #EAE9ED;
+      color: #ABA9B0;
+      cursor: not-allowed;
+    }
+
     &:active,
     &:focus-visible {
       background-color: $persian-blue-700;
@@ -286,28 +292,27 @@
 
 .#{$namespace}-footer-warning {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  align-items: start;
+  max-width: 388px;
 
-  background: #f8f8f8;
+  background: #EFEFF2;
   border: 1px solid #e1e1e1;
   border-radius: 8px;
-  padding: 7px 16px;
-  margin: 0 16px 0 auto;
-  color: #191d27;
+  padding: 8px;
+  margin: 0 16px 16px 16px;
+  color: #4C4B4F;
   font-size: 12px;
   line-height: 16px;
   letter-spacing: 0.4px;
+  text-align: left;
 
   span {
     display: flex;
     align-items: center;
     text-align: left;
-
-    &.icon {
-      margin-right: 8px;
-    }
+    margin-left: 8px;
   }
+
   & + .#{$namespace}-datepicker-btn-confirm {
     margin: 0;
     pointer-events: none;

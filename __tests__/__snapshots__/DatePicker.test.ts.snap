@@ -611,6 +611,7 @@ exports[`DatePicker prop: appendToBody = false 1`] = `
                     </table>
                   </div>
                 </div>
+                <!---->
               </div>
             </div>
           </div>
@@ -1238,6 +1239,7 @@ exports[`DatePicker prop: appendToBody = true 1`] = `
                 </table>
               </div>
             </div>
+            <!---->
           </div>
         </div>
       </div>

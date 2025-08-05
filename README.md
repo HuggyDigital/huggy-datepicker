@@ -165,7 +165,7 @@ You can also override some of the default locale by `lang`.
 | prefix-class                   | set prefix class                                                      | `string`                                        | 'mx'           |
 | scroll-duration                | set the duration of scroll when hour is selected                      | `number`                                        | 100            |
 | column-calendar                | set if calendar range display direction is column                     | `boolean`                                       | false          |
-| max-days-range                 | set max range warning for shortcut datepicker custom                  | `object { days: Number, text: string }`         | null           |
+| max-days-range                 | Sets an array of validation rules for the date range                  | `[{ days?: number, validate?: function, text: string }]` | null           |
 | time-labels                 | shows labels for time-picker columns                  | `object { hour?: string, minute?: string, second?: string }`         | null           |
 
 
