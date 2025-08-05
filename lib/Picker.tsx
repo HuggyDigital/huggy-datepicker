@@ -51,7 +51,7 @@ export interface PickerBaseProps {
   shortcutsCalendarAlwaysOpen?: boolean;
   columnCalendar?: boolean;
   titleFormat?: string;
-  maxDaysRange?: RangeValidationConfig;
+  maxDaysRange?: RangeValidationConfig[] | RangeValidationConfig;
   timeLabels?: TimeLabels;
   disabledDate?: (v: Date) => boolean;
   disabledTime?: (v: Date) => boolean;
