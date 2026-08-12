@@ -52,6 +52,7 @@ export interface PickerBaseProps {
   columnCalendar?: boolean;
   titleFormat?: string;
   maxDaysRange?: RangeValidationConfig[] | RangeValidationConfig;
+  infoFixedText?: string;
   timeLabels?: TimeLabels;
   disabledDate?: (v: Date) => boolean;
   disabledTime?: (v: Date) => boolean;
@@ -468,21 +469,30 @@ function Picker(originalProps: PickerProps, { slots }: SetupContext) {
 
     const content = <Component {...pick(componentProps, Component.props)} />;
 
-    let warningContent = null;
+    let infoContent = null;
 
-    if (maxLimitReached.value && currentWarningTexts.value.length > 0 && isCustom.value) {
-      warningContent = currentWarningTexts.value.map((errorText, index) => (
-        <div key={index} class={`${prefixClass}-footer-warning`}>
-          <i style="font-size: 16px;" class="locke locke-error_outline"></i>
-          <span>{errorText}</span>
+    const texts = [
+      ...(props.infoFixedText ? [props.infoFixedText] : []),
+      ...(maxLimitReached.value && isCustom.value ? currentWarningTexts.value : []),
+    ];
+
+    if (texts.length > 0) {
+      infoContent = (
+        <div class={`${prefixClass}-footer-warnings-container`}>
+          {texts.map((text, index) => (
+            <div key={index} class={`${prefixClass}-footer-warning`}>
+              <i style="font-size: 16px;" class="locke locke-error_outline"></i>
+              <span>{text}</span>
+            </div>
+          ))}
         </div>
-      ));
+      );
     }
 
     const contentHtml = (
       <div class={`${prefixClass}-datepicker-body${props.columnCalendar ? ' wrapper-column' : ''}`}>
         {h(content, pick({ ...props, ...slotProps }, content.props))}
-        {warningContent}
+        {infoContent}
       </div>
     );
 
@@ -652,6 +662,7 @@ const pickerbaseProps = keys<PickerBaseProps>()([
   'columnCalendar',
   'titleFormat',
   'maxDaysRange',
+  'infoFixedText',
   'timeLabels',
   'onOpen',
   'onClose',
