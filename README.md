@@ -167,7 +167,7 @@ You can also override some of the default locale by `lang`.
 | column-calendar                | set if calendar range display direction is column                     | `boolean`                                       | false          |
 | max-days-range                 | Sets an array of validation rules for the date range                  | `[{ days?: number, validate?: function, text: string }]` | null           |
 | time-labels                 | shows labels for time-picker columns                  | `object { hour?: string, minute?: string, second?: string }`         | null           |
-
+| info-fixed-text                       | displays a fixed informational message inside the datepicker | `string`                                      | null           |
 
 #### Token
 
