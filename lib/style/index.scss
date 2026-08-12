@@ -290,6 +290,13 @@
   }
 }
 
+.#{$namespace}-footer-warnings-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 16px;
+}
+
 .#{$namespace}-footer-warning {
   display: flex;
   align-items: start;
@@ -299,7 +306,7 @@
   border: 1px solid #e1e1e1;
   border-radius: 8px;
   padding: 8px;
-  margin: 0 16px 16px 16px;
+  margin: 0 16px 0 16px;
   color: #4C4B4F;
   font-size: 12px;
   line-height: 16px;
@@ -323,7 +330,6 @@
 
   @media (max-width: 1240px) {
     max-width: 146px;
-    margin: 0 auto;
   }
 }
 

@@ -9,7 +9,8 @@
         value-type="format"
         range
         simple-range-text
-        :max-days-range="{ days: 10, text: 'ALLOWED_DAYS_LIMIT' }"
+        :max-days-range="{ days: 10, text: 'É permitido selecionar até 10 dias' }"
+        info-fixed-text="A meta limita o filtro do período aos 89 dias mais recentes."
         :disabled-date="notAfterToday"
         :shortcuts-calendar-always-open="false"
         confirm
